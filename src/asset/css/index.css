@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.custom-logo{
+    width: 89px;
+    height: 57px;
+}
+.custom-banner{
+    height: 1024px;
+}
