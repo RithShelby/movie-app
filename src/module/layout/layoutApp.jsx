@@ -4,7 +4,7 @@ import HeaderApp from "./components/Header";
 
 const LayoutApp = () => {
     return (
-        <div className="contents">
+        <div className="contain-layout">
             <HeaderApp/>
             <Outlet />
         </div>
