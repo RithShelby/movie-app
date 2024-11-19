@@ -2,7 +2,6 @@ import React from 'react';
 import { Carousel } from 'antd';
 import { BannerData } from '../../../data/Data';
 import {IoPlay} from "react-icons/io5";
-import {Link} from "react-router-dom";
 
 const Banner = () => {
     const onChange = (currentSlide) => {
@@ -28,5 +27,4 @@ const Banner = () => {
         </Carousel>
     );
 };
-
 export default Banner;

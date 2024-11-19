@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../../../asset/image/Logo.png";
 import { endData, navData } from "../../../../data/Data";
 import CustomSearch from "../../../widget/components/CustomSearch";
+import {CiSearch} from "react-icons/ci";
 
 const HeaderApp = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -18,7 +19,7 @@ const HeaderApp = () => {
 
     return (
         <nav className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 bg-transparent z-10  
-            ${isScrolled ? "backdrop-blur-md mt-0" : "mt-5 backdrop-blur"}`}>
+            ${isScrolled ? "backdrop-blur mt-0" : "backdrop-blur-sm"}`}>
             <img src={logo} alt="Logo" className="custom-logo"/>
             <div className="flex font-bold">
                 {navData.map((item, index) => (
@@ -32,10 +33,10 @@ const HeaderApp = () => {
                 ))}
             </div>
             <div className="flex ms-5 font-bold">
-                <CustomSearch/>
+                <CustomSearch placeholder="Search movie here" icon={<CiSearch/>} type={"search"}/>
                 {endData.map((item, index) => (
-                    <Link key={index} className="flex items-center" to={item.path}>
-                        <span className="text-3xl">{item.icon}</span>
+                    <Link key={index} className="flex items-center mx-2" to={item.path}>
+                        <span className="text-3xl hover:text-2xl transition-all">{item.icon}</span>
                     </Link>
                 ))}
             </div>

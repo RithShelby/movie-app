@@ -1,7 +1,8 @@
 
-import {IoGitNetworkOutline, IoLocationOutline, IoTicketOutline} from "react-icons/io5";
+import { IoLocationOutline, IoTicketOutline} from "react-icons/io5";
 import React from "react";
 import {RiMovie2Line} from "react-icons/ri";
+import {MdOutlineVerifiedUser} from "react-icons/md";
 
 const navData = [
     {
@@ -26,11 +27,11 @@ const endData = [
         title : "Ticket",
         path : "/"
     },
-    // {
-    //     icon : <MdOutlineVerifiedUser />,
-    //     title : "JoinUs",
-    //     path : "/sign-up"
-    // },
+    {
+        icon : <MdOutlineVerifiedUser />,
+        title : "JoinUs",
+        path : "/login"
+    },
 ]
 const BannerData = [
     {
