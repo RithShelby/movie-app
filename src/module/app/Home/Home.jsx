@@ -1,14 +1,16 @@
-import React from 'react';
+import React from "react";
 import Banner from "../banner/Banner";
 import ShowTime from "../showTime";
 
-const Home = () => {
-    return (
-        <div className="">
-            <Banner/>
-            <ShowTime/>
-        </div>
-    );
+const HomePage = () => {
+  return (
+    <React.Fragment>
+      <div className="columns-1">
+        <Banner />
+        <ShowTime />
+      </div>
+    </React.Fragment>
+  );
 };
 
-export default Home;
+export default HomePage;

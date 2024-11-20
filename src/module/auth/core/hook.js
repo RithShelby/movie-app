@@ -37,7 +37,7 @@ const useAuth = () => {
   const Onlogin = (values) => {
     reqLogin(values)
       .then(() => {
-        Success();
+        // Success();
         navigate("/");
         console.log(values);
         localStorage.setItem("LoginObject", JSON.stringify(values));
@@ -49,8 +49,8 @@ const useAuth = () => {
   const OnLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/login");
-      Success();
+      navigate("/auth/login");
+      // Success();
       localStorage.removeItem("LoginObject");
     } catch (error) {
       console.log(error.message);

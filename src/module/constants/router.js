@@ -1,21 +1,22 @@
-import Register from "../auth/components/Register";
-import Login from "../auth/components/Login";
-import Banner from "../app/banner/Banner";
-
+import AuthPage from "../auth/index.jsx";
+import HomePage from "../app/Home/Home.jsx";
+import Booking from "../app/booking/index.jsx";
+import CinemaPage from "../app/cinema/index.jsx";
 const AuthRoute = [
-    {
-        path : "/sign-up",
-        element: <Register/>
-    },
-    {
-        path : "/login",
-        element: <Login/>
-    }
-]
+  {
+    path: "/auth*",
+    element: <AuthPage />,
+  },
+];
 const AppRoute = [
-    {
-        path : "/",
-        element : <Banner/>
-    }
-]
-export {AuthRoute,AppRoute}
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/cinema",
+    element: <CinemaPage />,
+  },
+];
+
+export { AuthRoute, AppRoute };
