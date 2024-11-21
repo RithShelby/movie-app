@@ -6,7 +6,7 @@ import { reqLogin, reqRegister, reSignInWithGoogle } from "./request";
 const useAuth = () => {
   const navigate = useNavigate();
   const OnRegister = (values) => {
-    return reqRegister(values)
+    reqRegister(values)
       .then(() => {
         navigate("/");
         console.log(values);

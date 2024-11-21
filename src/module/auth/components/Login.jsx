@@ -20,7 +20,7 @@ const Login = () => {
     <div>
       <form onSubmit={formik.handleSubmit}>
         <CustomSearch
-          name="email"
+          name={"email"}
           value={formik.values.email}
           onChange={formik.handleChange}
           placeholder="Email"
@@ -28,7 +28,7 @@ const Login = () => {
           type={"email"}
         />
         <CustomSearch
-          name="password"
+          name={"password"}
           value={formik.values.password}
           onChange={formik.handleChange}
           placeholder="Password"
