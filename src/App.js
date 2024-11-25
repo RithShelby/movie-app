@@ -3,7 +3,7 @@ import "../src/asset/css/index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LayoutApp from "./module/layout/layoutApp";
 import { AppRoute, AuthRoute } from "./module/constants/router";
-import ProtectedRoute from "./helper/ProtectedRoute";
+import ProtectRoute from "./helper/ProtectRoute";
 const App = () => {
   return (
     <BrowserRouter>
@@ -11,9 +11,9 @@ const App = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <LayoutApp />
-            </ProtectedRoute>
+              <ProtectRoute>
+                  <LayoutApp />
+              </ProtectRoute>
           }
         >
           {AppRoute.map((ar, index) => (

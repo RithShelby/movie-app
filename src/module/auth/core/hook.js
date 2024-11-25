@@ -4,16 +4,18 @@ import { auth } from "../../../config/firebase-config";
 import { reqLogin, reqRegister, reSignInWithGoogle } from "./request";
 
 const useAuth = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
   const OnRegister = (values) => {
-    reqRegister(values)
+    return reqRegister(values)
       .then(() => {
         navigate("/");
-        console.log(values);
         localStorage.setItem("LoginObject", JSON.stringify(values));
+        alert("Success");
+          console.log(values);
       })
       .catch((error) => {
         console.log(error.message);
+        alert("Error")
       });
   };
   const SignInWithGoogle = () => {
@@ -26,12 +28,14 @@ const useAuth = () => {
         localStorage.setItem("email", email);
         localStorage.setItem("photoURL", photoURL);
         // setUserByGoogle(result.user);
-        localStorage.setItem("LoginObject", JSON.stringify());
-
+        localStorage.setItem("LoginObject", JSON.stringify);
         navigate("/");
+        alert("Success");
+          console.log(result)
       })
       .catch((error) => {
         console.error("Error during Google Sign-In: ", error);
+        alert("Error");
       });
   };
   const Onlogin = (values) => {
@@ -41,19 +45,23 @@ const useAuth = () => {
         navigate("/");
         console.log(values);
         localStorage.setItem("LoginObject", JSON.stringify(values));
+
+        alert("Success");
       })
       .catch((error) => {
         console.log(error.message);
+        alert('Error')
       });
   };
   const OnLogout = async () => {
     try {
       await signOut(auth);
       navigate("/auth/login");
-      // Success();
+      alert("Success");
       localStorage.removeItem("LoginObject");
     } catch (error) {
       console.log(error.message);
+      alert("Error")
     }
   };
 
