@@ -22,7 +22,7 @@ const Banner = () => {
             </text>
             <p className="lg:w-1/3 md:w-1/4 w-1/6 mt-5 lg:text-lg text-gray-200">{item.desc}</p>
             <button className="lg:flex md:flex rounded btn lg:w-1/5 lg:mt-5 md:w-1/5 md:mt-5 hidden">
-              <IoPlay />==
+              <IoPlay />
               <p>Trailer</p>
             </button>
           </div>

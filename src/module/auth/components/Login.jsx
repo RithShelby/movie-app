@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../core/hook";
 import { useFormik } from "formik";
 const Login = () => {
-  const { Onlogin, SignInWithGoogle } = useAuth();
+  const { Onlogin } = useAuth();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -45,17 +45,6 @@ const Login = () => {
               <p className="font-bold">Register</p>
             </Link>
           </span>
-          <Link
-            className="flex items-center btn-outline btn hover:bg-white hover:text-black text-white mt-5 border-1"
-            to="/"
-            onClick={SignInWithGoogle}
-          >
-            <img
-              src="https://img.icons8.com/color/48/000000/google-logo.png"
-              alt="Google Logo"
-            />
-            <span>Continue with Google</span>
-          </Link>
         </div>
       </form>
     </div>
