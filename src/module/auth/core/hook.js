@@ -19,17 +19,14 @@ const useAuth = () => {
       });
   };
   const SignInWithGoogle = () => {
-      try{
           return reSignInWithGoogle().then(() => {
               localStorage.setItem("LoginObject", JSON.stringify);
               navigate("/");
+              alert("Success")
           }).catch((err) => {
               alert(err)
           })
 
-      }catch (err){
-          alert(err)
-      }
   };
   const Onlogin = (values) => {
     reqLogin(values)
