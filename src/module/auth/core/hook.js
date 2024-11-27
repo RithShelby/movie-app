@@ -18,16 +18,27 @@ const useAuth = () => {
         alert("Error")
       });
   };
-  const SignInWithGoogle = () => {
-          return reSignInWithGoogle().then(() => {
-              localStorage.setItem("LoginObject", JSON.stringify);
-              navigate("/");
-              alert("Success")
-          }).catch((err) => {
-              alert(err)
-          })
+    const SignInWithGoogle = () => {
+        return reSignInWithGoogle()
+            .then((result) => {
+                // Retrieve the user data from the result
+                const user = result.user;
 
-  };
+                // Store the user data in localStorage
+                localStorage.setItem("LoginObject", JSON.stringify(user));
+
+                // Navigate to the home page
+                navigate("/");
+
+                // Notify the user
+                alert("Success");
+            })
+            .catch((err) => {
+                // Handle errors
+                alert(`Error: ${err.message}`);
+            });
+    };
+
   const Onlogin = (values) => {
     reqLogin(values)
       .then(() => {

@@ -9,7 +9,7 @@ const AuthPage = () => {
   // Determine which component to render
   const isLogin = location.pathname === "/auth/login";
   return (
-    <div className="bg-gradient-to-br from-black to-rose-950 h-screen lg:py-24 py-20">
+    <div className="bg-gradient-to-br from-black to-rose-950 h-screen w-screen lg:py-24 py-20">
       <div className="breadcrumbs text-xl text-white flex items-ceneter justify-center">
         <ul>
           <li>
