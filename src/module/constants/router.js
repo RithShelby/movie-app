@@ -1,7 +1,6 @@
 import AuthPage from "../auth/index.jsx";
 import HomePage from "../app/Home/Home.jsx";
-import Booking from "../app/booking/index.jsx";
-import CinemaPage from "../app/cinema/index.jsx";
+import ShowTime from "../app/showTime";
 const AuthRoute = [
   {
     path: "/auth*",
@@ -15,7 +14,7 @@ const AppRoute = [
   },
   {
     path: "/cinema",
-    element: <CinemaPage />,
+    element: <ShowTime />,
   },
 ];
 
