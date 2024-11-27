@@ -19,24 +19,17 @@ const useAuth = () => {
       });
   };
   const SignInWithGoogle = () => {
-    return reSignInWithGoogle()
-      .then((result) => {
-        const name = result.user.displayName;
-        const email = result.user.email;
-        const photoURL = result.user.photoURL;
-        localStorage.setItem("name", name);
-        localStorage.setItem("email", email);
-        localStorage.setItem("photoURL", photoURL);
-        // setUserByGoogle(result.user);
-        localStorage.setItem("LoginObject", JSON.stringify);
-        navigate("/");
-        alert("Success");
-          console.log(result)
-      })
-      .catch((error) => {
-        console.error("Error during Google Sign-In: ", error);
-        alert("Error");
-      });
+      try{
+          return reSignInWithGoogle().then(() => {
+              localStorage.setItem("LoginObject", JSON.stringify);
+              navigate("/");
+          }).catch((err) => {
+              alert(err)
+          })
+
+      }catch (err){
+          alert(err)
+      }
   };
   const Onlogin = (values) => {
     reqLogin(values)
