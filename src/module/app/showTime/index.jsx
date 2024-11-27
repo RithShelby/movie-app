@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useShowTime } from "./core/hook";
-import CustomSelect from "../../widget/components/CustomSelect";
+import CustomSwiper from "../../widget/components/CustomSwiper";
 
 const ShowTime = () => {
     const { ShowTimeList } = useSelector((state) => state.showTimeList);
     const { getShowTime } = useShowTime();
-    const [selectedOption, setSelectedOption] = useState(null); // Store selected date(s)
+    const [selectedOption, setSelectedOption] = useState(ShowTimeList[0]?.date || null); // Store selected date(s)
     const [filteredShowTimes, setFilteredShowTimes] = useState([]); // Filtered showtimes
 
     // Fetch showtimes on component mount
@@ -52,54 +52,29 @@ const ShowTime = () => {
     // Handle clicks on desktop date buttons
     const handleDateClick = (date) => {
         filterShowTimes({ value: date });
-        setSelectedOption(null); // Reset dropdown for consistency
+        setSelectedOption(date); // Set the clicked date as active
     };
-
-    // Handle selection in dropdown for mobile
-    const handleSelectChange = (selected) => {
-        setSelectedOption(selected);
-        filterShowTimes(selected);
-    };
-
-    // Convert showtimes into dropdown options
-    const dateOptions = ShowTimeList.map((item) => ({
-        value: item.date,
-        label: `${item.date.day}, ${item.date.date} ${item.date.month}`,
-    }));
-
     return (
-        <div className="text-white lg:mx-48 py-10 mx-2">
+        <div className="text-white lg:mx-24 py-10 md:px-10 px-3">
             <h1 className="text-4xl font-bold mb-5">Now Showing</h1>
-
-            {/* Desktop: Render clickable date buttons */}
-            <div className="hidden lg:flex md:flex md:justify-between mb-4">
-                {ShowTimeList.map((item, index) => (
-                    <div
-                        key={index}
-                        className="cursor-pointer flex flex-col items-center border rounded-lg p-4"
-                        onClick={() => handleDateClick(item.date)}
-                    >
-                        <p>{item.date.day}</p>
-                        <p>{item.date.date}</p>
-                        <p>{item.date.month}</p>
-                    </div>
-                ))}
-            </div>
-
-            {/* Mobile: Render dropdown for filtering */}
-            <div className="lg:hidden md:hidden flex justify-end">
-                <CustomSelect
-                    isSearchable={false}
-                    options={dateOptions}
-                    isMultiple={false} // Single selection for clarity
-                    placeholder="Select a date to filter"
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                    className="text-black"
-                />
-            </div>
-
-            {/* Render filtered showtimes */}
+            <CustomSwiper
+                data={ShowTimeList.map((item, index) => {
+                    const isActive = selectedOption === item.date; // Check if the current item is active
+                    return (
+                        <div
+                            key={index}
+                            className={`cursor-pointer flex flex-col items-center m-auto border rounded-lg w-56 py-3 lg:mx-5 md:mx-1  ${
+                                isActive ? "border-blue-900 shadow-md shadow-blue-500" : ""
+                            }`}
+                            onClick={() => handleDateClick(item.date)}
+                        >
+                            <p>{item.date.day}</p>
+                            <p>{item.date.date}</p>
+                            <p>{item.date.month}</p>
+                        </div>
+                    );
+                })}
+            />
             <div className="mt-4">
                 {filteredShowTimes.map((item, index) => (
                     <div key={index} className="lg:columns-4 md:columns-2 columns-2 gap-4">
