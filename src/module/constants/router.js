@@ -1,6 +1,7 @@
 import AuthPage from "../auth/index.jsx";
 import HomePage from "../app/Home/Home.jsx";
 import ShowTime from "../app/showTime";
+import MovieDetail from "../app/showTime/components/MovieDetail";
 const AuthRoute = [
   {
     path: "/auth*",
@@ -13,8 +14,12 @@ const AppRoute = [
     element: <HomePage />,
   },
   {
-    path: "/cinema",
+    path: "/",
     element: <ShowTime />,
+  },
+  {
+    path: "/:id",
+    element: <MovieDetail />,
   },
 ];
 

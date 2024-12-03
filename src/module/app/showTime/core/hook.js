@@ -1,50 +1,77 @@
-
-import {useDispatch} from "react-redux";
-import {reGetShowTime} from "./request";
-import {setShowTime} from "./ShowTimeSlice";
-import {getDocs,getDoc} from "@firebase/firestore";
-
-const useShowTime = () =>{
+import { useDispatch } from "react-redux";
+import { getDocs, getDoc} from "@firebase/firestore";
+import {setMovieDetail, setShowTime} from "./ShowTimeSlice";
+import {reGetShowTime, reMovieDetail} from "./request";
+const useShowTime = () => {
     const dispatch = useDispatch();
+
     const getShowTime = async () => {
         try {
             const data = await getDocs(reGetShowTime);
             const mapData = await Promise.all(
                 data.docs.map(async (doc) => {
                     const showTimeData = doc.data();
-                    // Ensure movieId is an array before using map
+
+                    // Fetch movie details with ID included
                     const movieDataPromises = Array.isArray(showTimeData.movieId)
                         ? showTimeData.movieId.map(async (movieRef) => {
                             const movieSnapshot = await getDoc(movieRef);
-                            return movieSnapshot.exists() ? movieSnapshot.data() : null;
+                            if (movieSnapshot.exists()) {
+                                const movieData = movieSnapshot.data();
+                                return {
+                                    id: movieRef.id, // Include movie ID
+                                    ...movieData,
+                                };
+                            }
+                            return null; // Handle non-existing movies
                         })
-                        : []; // If movieId is not an array, create an empty array (or handle other cases)
+                        : [];
 
-                    // Fetch the theater document
+                    // Fetch theater details
                     const theaterSnapshot = await getDoc(showTimeData.theaterId);
                     const theaterData = theaterSnapshot.exists()
                         ? theaterSnapshot.data().name.value
                         : "Null Theater";
 
-                    // Wait for all movie data to be fetched
                     const movies = await Promise.all(movieDataPromises);
 
                     return {
                         ...showTimeData,
                         id: doc.id,
-                        movieId: movies.filter((movie) => movie !== null), // Filter out null values
+                        movieId: movies.filter((movie) => movie !== null),
                         theaterId: theaterData,
                     };
                 })
             );
 
-            // Dispatch the serializable data to Redux
             dispatch(setShowTime(mapData));
+            // console.log(mapData);
         } catch (err) {
-            console.error(err);
+            console.error("Error fetching showtimes:", err);
         }
     };
-
-    return {getShowTime}
+    const getMovieDetail = async (movieId) => {
+        try {
+            const movieRef = reMovieDetail(movieId); // Get the movie reference from request.js
+            const movieSnapshot = await getDoc(movieRef);
+            if (movieSnapshot.exists()) {
+                const movieData = {
+                    id: movieSnapshot.id,
+                    ...movieSnapshot.data(),
+                };
+                // Dispatch movie details to Redux
+                dispatch(setMovieDetail(movieData));
+                return movieData; // Return movie data for immediate use
+            } else {
+                console.error(`Movie with ID ${movieId} does not exist.`);
+                return null;
+            }
+        } catch (err) {
+            console.error("Error fetching movie detail:", err);
+            return null;
+        }
+    };
+    return { getShowTime,getMovieDetail };
 };
-export {useShowTime}
+
+export { useShowTime };

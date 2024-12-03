@@ -6,11 +6,12 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
     apiKey: "AIzaSyBt-zOAGu617ClfUxaDqgxDCa24f5F9oP0",
     authDomain: "fir-firstbase-24afa.firebaseapp.com",
+    databaseURL: "https://fir-firstbase-24afa-default-rtdb.firebaseio.com",
     projectId: "fir-firstbase-24afa",
     storageBucket: "fir-firstbase-24afa.appspot.com",
     messagingSenderId: "441220147747",
     appId: "1:441220147747:web:52bf2f9cefea5420ff9f96",
-    measurementId: "G-7RD6BH46YG",
+    measurementId: "G-7RD6BH46YG"
 };
 
 // Initialize Firebase
