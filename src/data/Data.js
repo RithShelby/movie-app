@@ -12,7 +12,7 @@ const navData = [
   {
     icon: <IoLocationOutline />,
     title: "Cinema",
-    path: "/cinema",
+    path: "/",
   },
   // {
   //     icon :<IoGitNetworkOutline />,

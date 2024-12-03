@@ -21,7 +21,7 @@ const HeaderApp = () => {
 
   return (
     <div
-      className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 z-10 h-12
+      className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 z-10  h-12
               ${isScrolled ? "mt-0" : " mt-10"}
             `}
     >

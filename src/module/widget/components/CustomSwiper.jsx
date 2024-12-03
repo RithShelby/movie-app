@@ -28,7 +28,7 @@ const CustomSwiper = ({ data }) => {
                         spaceBetween: 10,
                     },
                     1440: {
-                        slidesPerView: 5, // Medium screens (>= 768px)
+                        slidesPerView: 4, // Medium screens (>= 768px)
                         spaceBetween: 10,
                     },
                     2560: {
