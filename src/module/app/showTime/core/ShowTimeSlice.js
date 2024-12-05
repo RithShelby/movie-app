@@ -5,6 +5,7 @@ const ShowTimeSlice = createSlice({
     initialState: {
         ShowTimeList: [],
         movieDetail: null,
+        theaterDetail : null,
     },
     reducers: {
         setShowTime: (state, action) => {
@@ -13,8 +14,11 @@ const ShowTimeSlice = createSlice({
         setMovieDetail: (state, action) => {
             state.movieDetail = action.payload;
         },
+        setTheaterDetail: (state, action) => {
+            state.theaterDetail = action.payload;
+        },
 
     },
 });
-export const {setShowTime,setMovieDetail} = ShowTimeSlice.actions;
+export const {setShowTime,setMovieDetail,setTheaterDetail} = ShowTimeSlice.actions;
 export default ShowTimeSlice.reducer;

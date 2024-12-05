@@ -10,4 +10,8 @@ export const storeApp = configureStore({
     showTimeList: ShowTimeSlice,
     TheaterList: TheaterSlice
   },
+  middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
+        serializableCheck: false, // Disable serializable check
+      }),
 });

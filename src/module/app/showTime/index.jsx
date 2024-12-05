@@ -66,11 +66,11 @@ const ShowTime = () => {
         <div className="text-white lg:mx-24 py-10 md:px-10 px-3">
             <h1 className="text-4xl font-bold mb-5">Now Showing</h1>
             <CustomSwiper
-                data={ShowTimeList.map((item, index) => {
+                data={ShowTimeList.map((item) => {
                     const isActive = selectedOption === item.date; // Check if the current item is active
                     return (
                         <div
-                            key={index}
+                            key={item.date}
                             className={`cursor-pointer flex flex-col text-center border rounded-lg w-56 py-3 lg:mx-5 md:mx-1   ${
                                 isActive ? "border-blue-900 shadow-inner shadow-blue-500" : ""
                             }`}
@@ -90,7 +90,7 @@ const ShowTime = () => {
                     filteredShowTimes.map((item, index) => (
                             <div key={index} className="lg:columns-4 md:columns-2 columns-2 gap-4 px-5 mt-5 cursor-pointer">
                                 {item.movieId.map((movie, idx) => (
-                                    <div className="lg:p-5 md:px-2 md:py-5 pb-10">
+                                    <div key={movie.id} className="lg:p-5 md:px-2 md:py-5 pb-10">
                                         <div className="flex flex-col justify-start text-start">
                                             <Link to={`${movie.id}`}>
                                                 <img
