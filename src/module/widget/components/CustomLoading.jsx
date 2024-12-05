@@ -2,7 +2,7 @@ import React from 'react';
 
 const CustomLoading = ({message}) => {
     return (
-        <div className="flex justify-center items-center flex-col h-svh">
+        <div className="flex justify-center items-center flex-col h-svh text-white">
             <span className="loading loading-spinner loading-lg"></span>
             <p>{message}</p>
         </div>

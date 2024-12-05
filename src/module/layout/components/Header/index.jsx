@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import logo from "../../../../asset/image/Logo.png";
 import { endData, navData } from "../../../../data/Data";
 import CustomSearch from "../../../widget/components/CustomSearch";
@@ -18,10 +18,9 @@ const HeaderApp = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   return (
     <div
-      className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 z-10  h-12
+      className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 z-10 h-12
               ${isScrolled ? "mt-0" : " mt-10"}
             `}
     >
