@@ -31,7 +31,7 @@ const MovieDetail = () => {
     }
 
     return (
-        <div className="flex flex-col bg-slate-950 text-white">
+        <div className="flex flex-col bg-slate-950 text-white ">
             <div key={id} className="backdrop-blur-xl lg:px-48 lg:py-36 lg:h-screen p-3">
                 <CustomBgImage imgProp={movieDetail.imgUrl}/>
                 {loading ? (
@@ -53,8 +53,8 @@ const MovieDetail = () => {
                                     <li>{movieDetail.releaseDate || "Unknown"}</li>
                                 </ul>
                                 <p className="font-bold lg:text-5xl text-sky-400 text-3xl">
-                                    {movieDetail.theaterId
-                                        ?.flatMap((item) => item.name?.value)
+                                    {movieDetail.timeId
+                                        ?.flatMap((item) => item.theaterId?.name.value)
                                         .join(", ") || "Unknown"}
                                 </p>
                             </div>
@@ -71,8 +71,18 @@ const MovieDetail = () => {
                     </div>
                 )}
             </div>
-            <div className="flex">
+            <div className="flex flex-col items-start lg:px-48 lg:py-10">
                 <p className="font-bold text-4xl">ShowTime</p>
+                <span className="bg-gray-600 w-full font-bold uppercase text-xl my-6 ">
+                    {[...new Set(movieDetail.timeId.map((item) => item.theaterId.location))].join(", ")}
+                </span>
+                <div className="">
+                    {movieDetail.timeId.map((item, index) => (
+                        <button key={index} className="border rounded-3xl py-2 px-10 m-2">
+                            {item.time}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
 

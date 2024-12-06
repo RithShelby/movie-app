@@ -75,31 +75,61 @@ const useShowTime = () => {
                 movieData.theaterId = [];
             }
 
+            if (!Array.isArray(movieData.timeId)) {
+                console.warn(`Time IDs for movie ID ${movieId} are not in an array.`);
+                movieData.timeId = [];
+            }
+
             // Fetch theater data
-            const theaterDataPromise = movieData.theaterId.map(async (theaterRef) => {
+            // const theaterDataPromise = movieData.theaterId.map(async (theaterRef) => {
+            //     try {
+            //         const theaterSnapshot = await getDoc(theaterRef);
+            //         if (theaterSnapshot.exists()) {
+            //             const theaterData = theaterSnapshot.data();
+            //             return {
+            //                 id: theaterRef.id,
+            //                 ...theaterData,
+            //             };
+            //         }
+            //     } catch (error) {
+            //         console.error("Error fetching theater data:", error);
+            //     }
+            //     return null; // Return null if theater doesn't exist or fetch fails
+            // });
+
+            // Fetch time data
+            const timeDataPromise = movieData.timeId.map(async (timeRef) => {
                 try {
-                    const theaterSnapshot = await getDoc(theaterRef);
-                    if (theaterSnapshot.exists()) {
+                    const timeSnapshot = await getDoc(timeRef);
+                    if (timeSnapshot.exists()) {
+                        const timeData = timeSnapshot.data();
+                        // Resolve the theater reference in each time document
+                        if (timeData.theaterId) {
+                            const theaterSnapshot = await getDoc(timeData.theaterId);
+                            if (theaterSnapshot.exists()) {
+                                timeData.theaterId = {
+                                    id: timeData.theaterId.id,
+                                    ...theaterSnapshot.data(),
+                                };
+                            }
+                        }
                         return {
-                            id: theaterRef.id,
-                            ...theaterSnapshot.data(),
+                            id: timeRef.id,
+                            ...timeData,
                         };
                     }
                 } catch (error) {
-                    console.error("Error fetching theater data:", error);
+                    console.error("Error fetching time data:", error);
                 }
-                return null; // Return null for any errors or missing data
+                return null; // Return null if time doesn't exist or fetch fails
             });
-
-            const theaterData = await Promise.all(theaterDataPromise);
-
+            const time = await Promise.all(timeDataPromise);
             const fullMovieData = {
                 id: movieSnapshot.id,
                 ...movieData,
-                theaterId: theaterData.filter((theater) => theater !== null), // Remove null entries
+                timeId: time, // Replace timeId with resolved time data
             };
 
-            // Dispatch to Redux store
             dispatch(setMovieDetail(fullMovieData));
 
             return fullMovieData;
@@ -108,6 +138,7 @@ const useShowTime = () => {
             return null;
         }
     };
+
 
     return { getShowTime,getMovieDetail };
 };
