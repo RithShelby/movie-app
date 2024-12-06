@@ -73,9 +73,9 @@ const MovieDetail = () => {
             </div>
             <div className="flex flex-col items-start lg:px-48 lg:py-10">
                 <p className="font-bold text-4xl">ShowTime</p>
-                {/*<span className="bg-gray-600 w-full font-bold uppercase text-xl my-6 ">*/}
-                {/*    {[...new Set(movieDetail.timeId.map((item) => item.theaterId.location))].join(", ")}*/}
-                {/*</span>*/}
+                <span className="bg-gray-600 w-full font-bold uppercase text-xl my-6 ">
+                    {[...new Set(movieDetail.timeId.map((item) => item.theaterId.location))].join(", ")}
+                </span>
                 <div className="">
                     {movieDetail.timeId.map((item, index) => (
                         <button key={index} className="border rounded-3xl py-2 px-10 m-2">
