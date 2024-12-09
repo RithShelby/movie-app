@@ -21,6 +21,10 @@ const AppRoute = [
     path: "/:id",
     element: <MovieDetail />,
   },
+  // {
+  //   path : "/showtime/:timeId",
+  //   element: <TimeShow />,
+  // },
 ];
 
 export { AuthRoute, AppRoute };

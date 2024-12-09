@@ -7,7 +7,7 @@ const reGetShowTime = collection(db, "showTimeList");
 const reMovieDetail = (movieId) => {
     return doc(db, "movies", movieId); // Returns a reference to the movie document
 };
-const reTheaterDetail = (theaterId) => {
-    return doc(db, "theaters", theaterId); // Returns a reference to the movie document
+const reTimeList = (timeId) => {
+    return doc(db, "timeList", timeId); // Returns a reference to the movie document
 };
-export { reGetShowTime ,reMovieDetail ,reTheaterDetail};
+export { reGetShowTime ,reMovieDetail ,reTimeList};
