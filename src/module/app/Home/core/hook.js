@@ -36,11 +36,6 @@ const useHome = () =>{
                     }
                 })
             )
-            // map data to be array
-            // const mapData = data.docs.map((doc) => ({
-            //     ...doc.data(),
-            //     id: doc.id,
-            // }));
             dispatch(setMovies(mapData));
             console.log(mapData);
         } catch (err) {

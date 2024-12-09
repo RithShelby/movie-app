@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { getDocs, getDoc} from "@firebase/firestore";
-import {setMovieDetail, setShowTime} from "./ShowTimeSlice";
-import {reGetShowTime, reMovieDetail} from "./request";
+import { getDocs, getDoc,doc} from "@firebase/firestore";
+import {setMovieDetail, setShowTime, setTimeDetail} from "./ShowTimeSlice";
+import {reGetShowTime, reMovieDetail, reTimeList} from "./request";
 const useShowTime = () => {
     const dispatch = useDispatch();
 
@@ -70,32 +70,11 @@ const useShowTime = () => {
             }
 
             const movieData = movieSnapshot.data();
-            if (!Array.isArray(movieData.theaterId)) {
-                console.warn(`Theater IDs for movie ID ${movieId} are not in an array.`);
-                movieData.theaterId = [];
-            }
 
             if (!Array.isArray(movieData.timeId)) {
                 console.warn(`Time IDs for movie ID ${movieId} are not in an array.`);
                 movieData.timeId = [];
             }
-
-            // Fetch theater data
-            // const theaterDataPromise = movieData.theaterId.map(async (theaterRef) => {
-            //     try {
-            //         const theaterSnapshot = await getDoc(theaterRef);
-            //         if (theaterSnapshot.exists()) {
-            //             const theaterData = theaterSnapshot.data();
-            //             return {
-            //                 id: theaterRef.id,
-            //                 ...theaterData,
-            //             };
-            //         }
-            //     } catch (error) {
-            //         console.error("Error fetching theater data:", error);
-            //     }
-            //     return null; // Return null if theater doesn't exist or fetch fails
-            // });
 
             // Fetch time data
             const timeDataPromise = movieData.timeId.map(async (timeRef) => {
@@ -138,9 +117,53 @@ const useShowTime = () => {
             return null;
         }
     };
+    const getTimeDetail = async (timeId) => {
+        try {
+            const timeRef = reTimeList(timeId); // Get the movie reference
+            const timeSnapshot = await getDoc(timeRef);
 
+            if (!timeSnapshot.exists()) {
+                console.error(`Movie with ID ${timeId} does not exist.`);
+                return null;
+            }
+            const TimeData = timeSnapshot.data();
 
-    return { getShowTime,getMovieDetail };
+            // Fetch the theater data using the reference in theaterId
+            const theaterDataPromise = async () => {
+                try {
+                    const theaterRef = TimeData.theaterId; // Get the theater reference directly from the field
+                    const theaterSnapshot = await getDoc(theaterRef); // Fetch the theater data
+                    if (theaterSnapshot.exists()) {
+                        const theaterData = theaterSnapshot.data();
+                        return {
+                            id: theaterRef.id, // Using the document ID of the theater reference
+                            ...theaterData,
+                        };
+                    }
+                } catch (error) {
+                    console.error("Error fetching theater data:", error);
+                }
+                return null; // Return null if the theater doesn't exist or fetch fails
+            };
+
+            const theater = await theaterDataPromise(); // Fetch the theater data
+            const fullTimeData = {
+                id: timeSnapshot.id,
+                ...TimeData,
+                theaterId: theater ? [theater] : [],
+            };
+
+            dispatch(setTimeDetail(fullTimeData));
+
+            return fullTimeData;
+
+        } catch (err) {
+            console.error("Error fetching movie detail:", err);
+            return null;
+        }
+    };
+
+    return { getShowTime,getMovieDetail,getTimeDetail };
 };
 
 export { useShowTime };
