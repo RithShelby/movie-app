@@ -10,4 +10,5 @@ const reMovieDetail = (movieId) => {
 const reTimeList = (timeId) => {
     return doc(db, "timeList", timeId); // Returns a reference to the movie document
 };
-export { reGetShowTime ,reMovieDetail ,reTimeList};
+const reqBooking = collection(db,"booking");
+export { reGetShowTime ,reMovieDetail ,reTimeList ,reqBooking};

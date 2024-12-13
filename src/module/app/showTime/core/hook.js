@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { getDocs, getDoc,doc} from "@firebase/firestore";
-import {setMovieDetail, setShowTime, setTimeDetail} from "./ShowTimeSlice";
-import {reGetShowTime, reMovieDetail, reTimeList} from "./request";
+import {getDocs, getDoc, doc, setDoc} from "@firebase/firestore";
+import {setMovieDetail, setShowTime} from "./ShowTimeSlice";
+import {reGetShowTime, reMovieDetail, reqBooking} from "./request";
+import {useNavigate} from "react-router-dom";
 const useShowTime = () => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const getShowTime = async () => {
         try {
             const data = await getDocs(reGetShowTime);
@@ -117,53 +118,65 @@ const useShowTime = () => {
             return null;
         }
     };
-    const getTimeDetail = async (timeId) => {
+    const createBooking = async (values) => {
         try {
-            const timeRef = reTimeList(timeId); // Get the movie reference
-            const timeSnapshot = await getDoc(timeRef);
-
-            if (!timeSnapshot.exists()) {
-                console.error(`Movie with ID ${timeId} does not exist.`);
-                return null;
-            }
-            const TimeData = timeSnapshot.data();
-
-            // Fetch the theater data using the reference in theaterId
-            const theaterDataPromise = async () => {
-                try {
-                    const theaterRef = TimeData.theaterId; // Get the theater reference directly from the field
-                    const theaterSnapshot = await getDoc(theaterRef); // Fetch the theater data
-                    if (theaterSnapshot.exists()) {
-                        const theaterData = theaterSnapshot.data();
-                        return {
-                            id: theaterRef.id, // Using the document ID of the theater reference
-                            ...theaterData,
-                        };
-                    }
-                } catch (error) {
-                    console.error("Error fetching theater data:", error);
-                }
-                return null; // Return null if the theater doesn't exist or fetch fails
-            };
-
-            const theater = await theaterDataPromise(); // Fetch the theater data
-            const fullTimeData = {
-                id: timeSnapshot.id,
-                ...TimeData,
-                theaterId: theater ? [theater] : [],
-            };
-
-            dispatch(setTimeDetail(fullTimeData));
-
-            return fullTimeData;
-
-        } catch (err) {
-            console.error("Error fetching movie detail:", err);
-            return null;
+            const bookingRequest = await getDocs(reqBooking);
+            const size = bookingRequest.size;
+            // customId
+            const customId = "booking" + (size + 1);
+            const bookingRef = doc(reqBooking,customId)
+            await setDoc(bookingRef,values);
+        }catch (err){
+            console.log(err)
         }
-    };
+    }
+    // const getTimeDetail = async (timeId) => {
+    //     try {
+    //         const timeRef = reTimeList(timeId); // Get the movie reference
+    //         const timeSnapshot = await getDoc(timeRef);
+    //
+    //         if (!timeSnapshot.exists()) {
+    //             console.error(`Movie with ID ${timeId} does not exist.`);
+    //             return null;
+    //         }
+    //         const TimeData = timeSnapshot.data();
+    //
+    //         // Fetch the theater data using the reference in theaterId
+    //         const theaterDataPromise = async () => {
+    //             try {
+    //                 const theaterRef = TimeData.theaterId; // Get the theater reference directly from the field
+    //                 const theaterSnapshot = await getDoc(theaterRef); // Fetch the theater data
+    //                 if (theaterSnapshot.exists()) {
+    //                     const theaterData = theaterSnapshot.data();
+    //                     return {
+    //                         id: theaterRef.id, // Using the document ID of the theater reference
+    //                         ...theaterData,
+    //                     };
+    //                 }
+    //             } catch (error) {
+    //                 console.error("Error fetching theater data:", error);
+    //             }
+    //             return null; // Return null if the theater doesn't exist or fetch fails
+    //         };
+    //
+    //         const theater = await theaterDataPromise(); // Fetch the theater data
+    //         const fullTimeData = {
+    //             id: timeSnapshot.id,
+    //             ...TimeData,
+    //             theaterId: theater ? [theater] : [],
+    //         };
+    //
+    //         dispatch(setTimeDetail(fullTimeData));
+    //
+    //         return fullTimeData;
+    //
+    //     } catch (err) {
+    //         console.error("Error fetching movie detail:", err);
+    //         return null;
+    //     }
+    // };
 
-    return { getShowTime,getMovieDetail,getTimeDetail };
+    return { getShowTime,getMovieDetail,createBooking };
 };
 
 export { useShowTime };

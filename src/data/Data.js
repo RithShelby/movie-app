@@ -24,7 +24,7 @@ const endData = [
   {
     icon: <IoTicketOutline />,
     title: "Ticket",
-    path: "/",
+    path: "/order-list",
   },
   {
     icon: <MdOutlineVerifiedUser />,
