@@ -7,8 +7,6 @@ const reGetShowTime = collection(db, "showTimeList");
 const reMovieDetail = (movieId) => {
     return doc(db, "movies", movieId); // Returns a reference to the movie document
 };
-const reTimeList = (timeId) => {
-    return doc(db, "timeList", timeId); // Returns a reference to the movie document
-};
 const reqBooking = collection(db,"booking");
-export { reGetShowTime ,reMovieDetail ,reTimeList ,reqBooking};
+const reqSeats = collection(db,"seatsList");
+export { reGetShowTime ,reMovieDetail ,reqBooking,reqSeats};

@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {setTheater} from "./TheaterSlice";
-import {getDocs} from "@firebase/firestore";
+import {getDoc, getDocs} from "@firebase/firestore";
 import {reGetTheater} from "./request";
 
 const useTheater = () =>{

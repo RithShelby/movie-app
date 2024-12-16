@@ -1,11 +1,10 @@
 import { useDispatch } from "react-redux";
-import {getDocs, getDoc, doc, setDoc} from "@firebase/firestore";
-import {setMovieDetail, setShowTime} from "./ShowTimeSlice";
-import {reGetShowTime, reMovieDetail, reqBooking} from "./request";
-import {useNavigate} from "react-router-dom";
+import {getDocs, getDoc, doc, setDoc,updateDoc} from "@firebase/firestore";
+import {setMovieDetail, setSeats, setShowTime} from "./ShowTimeSlice";
+import {reGetShowTime, reMovieDetail, reqBooking, reqSeats,} from "./request";
+import {db} from "../../../../config/firebase-config";
 const useShowTime = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const getShowTime = async () => {
         try {
             const data = await getDocs(reGetShowTime);
@@ -86,10 +85,24 @@ const useShowTime = () => {
                         // Resolve the theater reference in each time document
                         if (timeData.theaterId) {
                             const theaterSnapshot = await getDoc(timeData.theaterId);
+
                             if (theaterSnapshot.exists()) {
+                                const theaterData = theaterSnapshot.data();
+                                // Resolve the seatsId reference in the theater document
+                                if (theaterData.seatsId) {
+                                    const seatsSnapshot = await getDoc(theaterData.seatsId);
+
+                                    if (seatsSnapshot.exists()) {
+                                        theaterData.seatsId = {
+                                            id: theaterData.seatsId.id,
+                                            ...seatsSnapshot.data(),
+                                        };
+                                    }
+                                }
+                                // Attach the resolved theater data and the seats data
                                 timeData.theaterId = {
                                     id: timeData.theaterId.id,
-                                    ...theaterSnapshot.data(),
+                                    ...theaterData,
                                 };
                             }
                         }
@@ -103,6 +116,7 @@ const useShowTime = () => {
                 }
                 return null; // Return null if time doesn't exist or fetch fails
             });
+
             const time = await Promise.all(timeDataPromise);
             const fullMovieData = {
                 id: movieSnapshot.id,
@@ -123,60 +137,63 @@ const useShowTime = () => {
             const bookingRequest = await getDocs(reqBooking);
             const size = bookingRequest.size;
             // customId
-            const customId = "booking" + (size + 1);
+            const customId = "order" + (size + 1);
             const bookingRef = doc(reqBooking,customId)
             await setDoc(bookingRef,values);
         }catch (err){
             console.log(err)
         }
     }
-    // const getTimeDetail = async (timeId) => {
-    //     try {
-    //         const timeRef = reTimeList(timeId); // Get the movie reference
-    //         const timeSnapshot = await getDoc(timeRef);
-    //
-    //         if (!timeSnapshot.exists()) {
-    //             console.error(`Movie with ID ${timeId} does not exist.`);
-    //             return null;
-    //         }
-    //         const TimeData = timeSnapshot.data();
-    //
-    //         // Fetch the theater data using the reference in theaterId
-    //         const theaterDataPromise = async () => {
-    //             try {
-    //                 const theaterRef = TimeData.theaterId; // Get the theater reference directly from the field
-    //                 const theaterSnapshot = await getDoc(theaterRef); // Fetch the theater data
-    //                 if (theaterSnapshot.exists()) {
-    //                     const theaterData = theaterSnapshot.data();
-    //                     return {
-    //                         id: theaterRef.id, // Using the document ID of the theater reference
-    //                         ...theaterData,
-    //                     };
-    //                 }
-    //             } catch (error) {
-    //                 console.error("Error fetching theater data:", error);
-    //             }
-    //             return null; // Return null if the theater doesn't exist or fetch fails
-    //         };
-    //
-    //         const theater = await theaterDataPromise(); // Fetch the theater data
-    //         const fullTimeData = {
-    //             id: timeSnapshot.id,
-    //             ...TimeData,
-    //             theaterId: theater ? [theater] : [],
-    //         };
-    //
-    //         dispatch(setTimeDetail(fullTimeData));
-    //
-    //         return fullTimeData;
-    //
-    //     } catch (err) {
-    //         console.error("Error fetching movie detail:", err);
-    //         return null;
-    //     }
-    // };
+    const getSeats = async () => {
+        try {
+            const data = await getDocs(reqSeats);
+            const mapData = data.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id
+            }))
+            dispatch(setSeats(mapData))
+        }catch (e){
+            console.log(e)
+        }
+    }
+    const updateSeatsValue = async (id, selectedSeats) => {
+        try {
+            // Reference to the seatsList document
+            const seatsDocRef = doc(db, "seatsList", id);
+            // Fetch the current seatsList document
+            const seatsDocSnap = await getDoc(seatsDocRef);
 
-    return { getShowTime,getMovieDetail,createBooking };
+            if (seatsDocSnap.exists()) {
+                // Get the current seats array
+                const seats = seatsDocSnap.data().seats;
+
+                // Update the seat status
+                const updatedSeats = seats.map((seat) => {
+                    try {
+                        if (selectedSeats.includes(seat.label) && seat.value === true) {
+                            console.log(`Updating seat ${seat.label} from true to false.`);
+                            return { ...seat, value: false }; // Change status to false
+                        }
+                        return seat; // Leave other seats unchanged
+                    } catch (error) {
+                        console.error(`Error updating seat ${seat.label}:`, error);
+                        return seat; // Leave the seat unchanged in case of an error
+                    }
+                });
+
+                // Update the Firestore document with the modified seats array
+                await updateDoc(seatsDocRef, { seats: updatedSeats });
+                await getSeats();
+            } else {
+                console.error("Seats document does not exist.");
+            }
+        } catch (error) {
+            console.error("Error updating seats:", error);
+        }
+    };
+
+
+    return { getShowTime,getMovieDetail,createBooking,getSeats,updateSeatsValue };
 };
 
 export { useShowTime };

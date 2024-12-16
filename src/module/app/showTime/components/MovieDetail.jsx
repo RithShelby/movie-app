@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Link, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useShowTime } from "../core/hook";
 import CustomLoading from "../../../widget/components/CustomLoading";
@@ -10,26 +10,30 @@ import {useFormik} from "formik";
 // import {Form, useFormik} from "formik";
 
 const MovieDetail = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
-    const { getMovieDetail,createBooking } = useShowTime();
+    const { getMovieDetail,createBooking,updateSeatsValue} = useShowTime();
     const movieDetail = useSelector((state) => state.showTimeList.movieDetail);
+    console.log(movieDetail)
     const [loading, setLoading] = useState(true);
     const [selectedShowTime, setSelectedShowTime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
 const formik = useFormik({
     initialValues : {
         movieName : "",
         hall : "",
         date : "",
         time : "",
-        price : "",
         totalPrice: "",
         selectedSeats : [],
     },
     onSubmit:async (values) => {
         try {
             await createBooking(values);
+            await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats);
+            console.log("Booking created and seats updated."); setSelectedSeats([]);
+            setSelectedSeats([]); // Clear selected seats after booking
+            navigate("/")
         }catch (err){
             console.log(err)
         }
@@ -52,32 +56,49 @@ const formik = useFormik({
         return <CustomLoading message={"Loading"} />;
     }
     const handleSeatClick = (seat) => {
-        // Get the price from the theater show time
-        const seatPrice = selectedShowTime?.theaterId?.price || 5; // Default to 5 if price is not available
+        const seatPrice = selectedShowTime?.theaterId?.price || 5;
 
         setSelectedSeats((prevSelectedSeats) => {
+            let updatedSeats;
+
             if (prevSelectedSeats.includes(seat)) {
                 // If the seat is already selected, remove it from the list
-                const updatedSeats = prevSelectedSeats.filter((s) => s !== seat);
-                setTotalPrice(updatedSeats.length * seatPrice); // Update total price
-                return updatedSeats;
+                updatedSeats = prevSelectedSeats.filter((s) => s !== seat);
             } else {
                 // If the seat is not selected, add it to the list
-                const updatedSeats = [...prevSelectedSeats, seat];
-                setTotalPrice(updatedSeats.length * seatPrice); // Update total price
-                return updatedSeats;
+                updatedSeats = [...prevSelectedSeats, seat];
             }
+
+            const updatedTotalPrice = updatedSeats.length * seatPrice;
+
+            // Update Formik values
+            formik.setFieldValue('selectedSeats', updatedSeats);
+            formik.setFieldValue('totalPrice', updatedTotalPrice);
+
+            return updatedSeats;
         });
     };
-    const handleShowTimeClick = (showTime) => {
-        setSelectedShowTime(showTime);
-        setTotalPrice(0);
+
+// When booking is created, update seat status in Firestore
+    const handleShowTimeClick = (item) => {
+        // Update selected showtime
+        setSelectedShowTime(item);
+
+        // Set Formik values for movie details and showtime
+        formik.setFieldValue("movieName", movieDetail.title?.value || "N/A");
+        formik.setFieldValue("hall", item.theaterId.hall || "N/A");
+        formik.setFieldValue(
+            "date",
+            `${movieDetail.showDate.day}-${movieDetail.showDate.date}-${movieDetail.showDate.month}`
+        );
+        formik.setFieldValue("time", item.time || "N/A");
+        formik.setFieldValue("totalPrice", )
+
     };
 
     const closeModal = () => {
         setSelectedShowTime(null);
         setSelectedSeats([]); // Reset selected seats
-        setTotalPrice(0); // Reset total price
     };
     return (
         <div className="flex flex-col bg-slate-950 text-white lg:p-0 ">
@@ -129,11 +150,11 @@ const formik = useFormik({
                 <form onSubmit={formik.handleSubmit} className="flex">
                     {movieDetail.timeId.flatMap((item, index) => (
                         <div key={index}>
-                            <button
+                            <span
                                 onClick={() => handleShowTimeClick(item)}
                                 className="border rounded-3xl py-2 px-7 me-5">
                                 {item.time}
-                            </button>
+                            </span>
                             {selectedShowTime?.id === item.id && (
                                 <div className="modal-open fixed inset-0 bg-black/60 z-50 lg:px-32 lg:py-10 md:p-10 p-2">
                                     <div className="w-full h-full text-black bg-white/90 rounded-xl text-center md:pt-20 pt-11 lg:flex justify-between p-10 overflow-y-auto">
@@ -143,18 +164,27 @@ const formik = useFormik({
                                                 <IoArrowBackOutline
                                                 className="m-auto"/></span>
                                             <p className="text-xl mt-5">Screen : {item.theaterId.name?.value}</p>
+                                            {/*Handle Select Seats*/}
                                             <span className="text-lg pt-5 grid grid-cols-4 gap-5 lg:mt-5 border-b border-black lg:pb-10 md:pb-10 pb-5">
-                                                {item.theaterId.seats.map((seat, index) => (
-                                                    <p
-                                                        key={index}
-                                                        className={`p-2 rounded-lg w-14 m-auto cursor-pointer ${
-                                                            selectedSeats.includes(seat) ? "bg-green-400" : "bg-gray-300"
-                                                        }`}
-                                                        onClick={() => handleSeatClick(seat)} // Use single click to toggle seat selection
-                                                    >
-                                                        {seat}
-                                                    </p>
-                                                ))}
+                                            {item.theaterId.seatsId.seats.map((seat, index) => (
+                                                <p
+                                                    key={index}
+                                                    className={`p-2 rounded-lg w-14 m-auto cursor-pointer ${
+                                                        seat.value === false
+                                                            ? "bg-red-400" // Seat is taken
+                                                            : selectedSeats.includes(seat.label)
+                                                                ? "bg-green-400" // Seat is selected
+                                                                : "bg-gray-300" // Seat is available
+                                                    }`}
+                                                    onClick={() => {
+                                                        if (seat.value !== false) handleSeatClick(seat.label); // Allow only if seat is available
+                                                    }}
+                                                >
+                                                    {seat.label}
+                                                </p>
+                                            ))}
+
+
                                             </span>
                                             <span className="flex gap-5 items-center justify-center py-3">
                                                 <span className="flex flex-col items-center">
@@ -177,21 +207,16 @@ const formik = useFormik({
                                                     <p>Your Seats : </p>
                                                 </div>
                                                 <div className="text-start">
-                                                    <p>{movieDetail.title?.value}</p>
-                                                    <p>{item.theaterId.hall}</p>
-                                                    <span className="flex">
-                                                        <p>{movieDetail.showDate.day}-</p>
-                                                        <p>{movieDetail.showDate.date}-</p>
-                                                        <p>{movieDetail.showDate.month}</p>
-                                                    </span>
-                                                    <p>{item.time} p.m</p>
-                                                    {/*<p>{item.theaterId.price} $ </p>*/}
-                                                    <span>{selectedSeats.join(",") || "no selected"}</span>
+                                                    <p>{formik.values.movieName}</p>
+                                                    <p>{formik.values.hall}</p>
+                                                    <p>{formik.values.date}</p>
+                                                    <p>{formik.values.time} p.m</p>
+                                                    <p>{formik.values.selectedSeats.join(",") || "No selected"}</p>
                                                 </div>
                                             </div>
                                             <hr className="border border-black/35 my-5 lg:flex md:flex hidden"/>
                                             <div className="bg-sky-500/20 p-2 my-3">
-                                                <p className="font-bold lg:text-3xl md:text-3xl text-xl text-start">Total : {totalPrice} $</p>
+                                                <p className="font-bold lg:text-3xl md:text-3xl text-xl text-start">Total : {formik.values.totalPrice} $</p>
                                             </div>
                                             <span className="lg:flex md:flex lg:mt-5 md:mt-5 flex m-0 justify-start">
                                                  <button className="btn px-7" onClick={closeModal}>Back</button>
