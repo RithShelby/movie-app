@@ -12,7 +12,7 @@ const HeaderApp = () => {
   const { OnLogout } = useAuth();
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40); // Adjust the scroll position to your preference
+      setIsScrolled(window.scrollY > 300); // Adjust the scroll position to your preference
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -20,22 +20,22 @@ const HeaderApp = () => {
   }, []);
   return (
     <div
-      className={`justify-center navbar hidden lg:flex text-slate-100 fixed text-xl transition-all duration-300 z-10 w-full
-              ${isScrolled ? "mt-0" : " mt-10"}
-            `}
-    >
-      <nav
-        style={{
+      className={`navbar hidden lg:flex justify-center items-center text-slate-100 fixed text-xl transition-all duration-300 z-10 w-full
+              ${isScrolled ? "m-0 p-0" : " py-5"}
+            `}>
+      <nav style={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        }}
-        className={`text-xl transition-all bg-transparent px-56 rounded-full ${
+        }} className={`text-xl transition-all bg-transparent px-56 rounded-full ${
           isScrolled
             ? "backdrop-blur-sm rounded-none w-screen justify-center "
             : "backdrop-blur-lg"
         }`}
       >
-        <img src={logo} alt="Logo" className="custom-logo " />
-        <div className="flex font-bold">
+        {/*logo*/}
+        <p className="">Watcher</p>
+        {/*<img src={logo} alt="Logo" className="custom-logo" />*/}
+        {/*mid nav data*/}
+        <div className="flex font-bold mx-20">
           {navData.map((item, index) => (
             <Link
               key={index}
@@ -48,13 +48,16 @@ const HeaderApp = () => {
               </span>
             </Link>
           ))}
+          <span className="mx-5">
+             <CustomSearch
+                 placeholder="Search movie here"
+                 icon={<CiSearch />}
+                 type={"search"}
+             />
+          </span>
         </div>
-        <div className="flex ms-5 font-bold">
-          <CustomSearch
-            placeholder="Search movie here"
-            icon={<CiSearch />}
-            type={"search"}
-          />
+        {/*end nav data*/}
+        <div className="flex font-bold">
           {endData.map((item, index) => (
             <Link key={index} className="flex items-center me-5" to={item.path}>
               <span className="text-3xl hover:text-2xl transition-all">

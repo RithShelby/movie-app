@@ -4,9 +4,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LayoutApp from "./module/layout/layoutApp";
 import { AppRoute, AuthRoute } from "./module/constants/router";
 import ProtectRoute from "./helper/ProtectRoute";
+import ScrollToTop from "./helper/ScrollTop";
 const App = () => {
   return (
     <BrowserRouter>
+        <ScrollToTop/>
       <Routes>
         <Route
           path="/"

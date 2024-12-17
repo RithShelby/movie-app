@@ -7,7 +7,6 @@ import CustomBgImage from "../../../widget/components/CustomBgImage";
 import {IoArrowBackOutline} from "react-icons/io5";
 import {PiArmchairFill} from "react-icons/pi";
 import {useFormik} from "formik";
-// import {Form, useFormik} from "formik";
 
 const MovieDetail = () => {
     const navigate = useNavigate();
@@ -101,8 +100,8 @@ const formik = useFormik({
         setSelectedSeats([]); // Reset selected seats
     };
     return (
-        <div className="flex flex-col bg-slate-950 text-white lg:p-0 ">
-            <div className="backdrop-blur-xl lg:px-48 lg:py-36 lg:h-screen">
+        <div className="flex flex-col bg-slate-950 text-white lg:p-0 pb-20">
+            <div className="backdrop-blur-xl lg:px-48 lg:py-36">
                 <CustomBgImage imgProp={movieDetail.imgUrl} />
                 {loading ? (
                     <CustomLoading message={"Loading"} />
@@ -112,24 +111,23 @@ const formik = useFormik({
                         style={{
                             boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                             backgroundColor: "rgba(0, 0, 0, 0.6)", // Add a semi-transparent background for contrast
-                        }}
-                    >
-                        <div className="flex flex-col lg:w-2/3 lg:px-10 md:w-full py-3 px-5">
+                        }}>
+                        <div className="flex flex-col lg:w-2/3 md:w-full p-10">
                             <p className="font-bold lg:text-6xl lg:tracking-wide text-5xl">{movieDetail.title?.value || "Untitled Movie"}</p>
-                            <div className="lg:flex lg:justify-between items-center justify-center my-3">
-                                <ul className="list-disc flex lg:text-xl">
+                            <span className="lg:flex lg:justify-between items-center">
+                                <ul className="flex list-disc my-3">
                                     <li className="list-none">{movieDetail.duration || "Unknown"} minutes</li>
-                                    <li className="lg:mx-10 mx-7">{movieDetail.type || "Unknown"}</li>
+                                    <li className="mx-5">{movieDetail.type || "Unknown"}</li>
                                     <li>{movieDetail.releaseDate || "Unknown"}</li>
                                 </ul>
-                                <p className="font-bold lg:text-5xl text-sky-400 text-3xl">
-                                    {movieDetail.timeId
-                                        ?.flatMap((item) => item.theaterId?.name.value)
-                                        .join(", ") || "Unknown"}
-                                </p>
-                            </div>
-                            <hr />
-                            <p className="text-lg text-slate-300 mt-3 leading-7 ">{movieDetail.description}</p>
+                            <p className="font-bold lg:text-3xl text-sky-400 text-3xl">
+                                {movieDetail.timeId
+                                    ?.flatMap((item) => item.theaterId?.name.value)
+                                    .join(", ") || "Unknown"}
+                            </p>
+                            </span>
+                            <hr className="my-5"/>
+                            <p className="text-lg text-slate-300 leading-7 ">{movieDetail.description}</p>
                         </div>
                         <div className="lg:relative lg:p-0 md:p-10 p-5">
                             <img
@@ -150,11 +148,12 @@ const formik = useFormik({
                 <form onSubmit={formik.handleSubmit} className="flex">
                     {movieDetail.timeId.flatMap((item, index) => (
                         <div key={index}>
-                            <span
+                            <button
+                                type="button"
                                 onClick={() => handleShowTimeClick(item)}
-                                className="border rounded-3xl py-2 px-7 me-5">
-                                {item.time}
-                            </span>
+                                className="border-2 p-2 me-3 rounded-3xl cursor-pointer hover:border-sky-400 transition-all ease-in-out hover:scale-110 ">
+                                {item.time} p.m
+                            </button>
                             {selectedShowTime?.id === item.id && (
                                 <div className="modal-open fixed inset-0 bg-black/60 z-50 lg:px-32 lg:py-10 md:p-10 p-2">
                                     <div className="w-full h-full text-black bg-white/90 rounded-xl text-center md:pt-20 pt-11 lg:flex justify-between p-10 overflow-y-auto">

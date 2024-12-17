@@ -14,12 +14,8 @@ const navData = [
     title: "Cinema",
     path: "/",
   },
-  // {
-  //     icon :<IoGitNetworkOutline />,
-  //     title : "Community",
-  //     path : "/"
-  // },
 ];
+
 const endData = [
   {
     icon: <IoTicketOutline />,
@@ -32,6 +28,23 @@ const endData = [
     path: "/auth/login",
   },
 ];
+const mobileNavData = [
+  {
+    icon: <RiMovie2Line />,
+    title: "Home",
+    path: "/",
+  },
+  {
+    icon: <IoLocationOutline />,
+    title: "Cinema",
+    path: "/",
+  },
+  {
+    icon: <IoTicketOutline />,
+    title: "Ticket",
+    path: "/order-list",
+  },
+]
 const BannerData = [
   {
     id: 1,
@@ -56,4 +69,4 @@ const BannerData = [
     desc: "Captain America's journey continues in a world that’s rapidly changing. With new threats emerging and old alliances tested, Steve Rogers faces his greatest challenge yet. Get ready for a bold new chapter in the legacy of the Star-Spangled Avenger!",
   },
 ];
-export { endData, navData, BannerData };
+export { endData, navData, BannerData,mobileNavData };
