@@ -71,7 +71,7 @@ const ShowTime = () => {
                     return (
                         <div
                             key={item.date}
-                            className={`cursor-pointer flex flex-col text-center border rounded-lg w-56 py-3 lg:mx-5 md:mx-1   ${
+                            className={`cursor-pointer flex flex-col text-center border rounded-lg w-56 py-3 lg:mx-5 md:mx-1 m-auto ${
                                 isActive ? "border-blue-900 shadow-inner shadow-blue-500" : ""
                             }`}
                             onClick={() => handleDateClick(item.date)}
