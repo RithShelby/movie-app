@@ -9,7 +9,7 @@ const AuthPage = () => {
   // Determine which component to render
   const isLogin = location.pathname === "/auth/login";
   return (
-    <div className="bg-gradient-to-br from-black to-rose-950 h-screen w-screen lg:py-24 py-20">
+    <div className="bg-gradient-to-br from-black to-rose-950 lg:py-24 py-20 ">
       <div className="breadcrumbs text-xl text-white flex items-ceneter justify-center">
         <ul>
           <li>
@@ -28,8 +28,8 @@ const AuthPage = () => {
           className="rounded-lg md:block hidden p-10"
           alt="logo"
         />
-        <div className="text-white font-bold w-4/5 ms-10 py-10">
-          <div className="text-4xl font-bold pb-5">
+        <div className="text-white font-bold w-4/5 ms-10 py-10 flex flex-col">
+          <div className="text-4xl font-bold pt-10">
             <Link
               to="/auth/login"
               className={`cursor-pointer ${isLogin ? "border-b-4" : ""}`}

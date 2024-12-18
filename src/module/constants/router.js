@@ -3,6 +3,7 @@ import HomePage from "../app/Home/Home.jsx";
 import ShowTime from "../app/showTime";
 import MovieDetail from "../app/showTime/components/MovieDetail";
 import OrderList from "../app/orderlist/OrderList";
+import UserPage from "../auth/components/UserPage";
 const AuthRoute = [
   {
     path: "/auth*",
@@ -21,6 +22,10 @@ const AppRoute = [
   {
     path: "/:id",
     element: <MovieDetail />,
+  },
+  {
+    path : "/user",
+    element: <UserPage/>
   },
   {
     path : "/order-list",

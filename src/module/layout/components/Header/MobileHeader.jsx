@@ -24,17 +24,17 @@ const MobileHeader = () => {
                 </div>
             </nav>
             {/* Bottom navigation bar */}
-            <nav className="fixed bottom-0 inset-x-0 backdrop-blur-lg z-50 mx-5 my-3 rounded-md shadow-lg shadow-gray-500">
+            <nav className="fixed bottom-0 inset-x-0 backdrop-blur-sm z-50 mx-5 my-3 rounded-3xl shadow-lg shadow-gray-500">
                 <div className="flex justify-evenly items-center p-4 text-white">
                     {mobileNavData.map((item,index) => (
-                        <Link key={index} to={item.path} className="border-0" onClick={() => handleActive(index)}>
+                        <Link key={index} to={item.path} className="border-0 transition-transform duration-500 ease-in-out hover:scale-110" onClick={() => handleActive(index)}>
                            <span
                                className={`flex flex-col items-center ${
-                                   active === index ? "shadow-lg shadow-sky-400" : ""
+                                   active === index ? "border-b border-sky-400 " : ""
                                }`}
                            >
                                 <i className="text-2xl">{item.icon}</i>
-                                <p>{item.title}</p>
+                                <p className="font-extralight ">{item.title}</p>
                               </span>
                         </Link>
                     ))}

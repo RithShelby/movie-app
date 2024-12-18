@@ -5,7 +5,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     authList: [],
-    // userByGoolgle: [],
     error: null,
     status: "",
   },
