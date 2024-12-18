@@ -2,6 +2,7 @@ import { IoLocationOutline, IoTicketOutline } from "react-icons/io5";
 import React from "react";
 import { RiMovie2Line } from "react-icons/ri";
 import { MdOutlineVerifiedUser } from "react-icons/md";
+import {SlSettings} from "react-icons/sl";
 
 const navData = [
   {
@@ -26,6 +27,11 @@ const endData = [
     icon: <MdOutlineVerifiedUser />,
     title: "JoinUs",
     path: "/auth/login",
+  },
+  {
+    icon: <SlSettings />,
+    title: "Setting",
+    path: "/user",
   },
 ];
 const mobileNavData = [

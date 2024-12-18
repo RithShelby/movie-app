@@ -6,10 +6,10 @@ import CustomSearch from "../../../widget/components/CustomSearch";
 import { CiSearch } from "react-icons/ci";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useAuth } from "../../../auth/core/hook";
+import user from "../../../auth/components/UserPage";
 
 const HeaderApp = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { OnLogout } = useAuth();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 300); // Adjust the scroll position to your preference
@@ -60,17 +60,12 @@ const HeaderApp = () => {
         <div className="flex font-bold">
           {endData.map((item, index) => (
             <Link key={index} className="flex items-center me-5" to={item.path}>
-              <span className="text-3xl hover:text-2xl transition-all">
-                {item.icon}
+              <span className="flex flex-col items-center transition-all">
+                  <i className="text-2xl"> {item.icon}</i>
+                  <p className="font-extralight text-lg">{item.title}</p>
               </span>
             </Link>
           ))}
-          <span
-            className="text-3xl flex items-center hover:text-2xl transition-all"
-            onClick={OnLogout}
-          >
-            <IoLogOutOutline />
-          </span>
         </div>
       </nav>
     </div>
