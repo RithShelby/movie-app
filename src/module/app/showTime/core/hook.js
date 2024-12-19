@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
-import {getDocs, getDoc, doc, setDoc,updateDoc} from "@firebase/firestore";
+import {getDocs, getDoc, doc, setDoc,updateDoc,deleteDoc} from "@firebase/firestore";
 import {setMovieDetail, setSeats, setShowTime} from "./ShowTimeSlice";
 import {reGetShowTime, reMovieDetail, reqBooking, reqSeats,} from "./request";
 import {db} from "../../../../config/firebase-config";
+import {useNavigate} from "react-router-dom";
 const useShowTime = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const getShowTime = async () => {
         try {
             const data = await getDocs(reGetShowTime);
@@ -136,14 +138,46 @@ const useShowTime = () => {
         try {
             const bookingRequest = await getDocs(reqBooking);
             const size = bookingRequest.size;
-            // customId
             const customId = "order" + (size + 1);
-            const bookingRef = doc(reqBooking,customId)
-            await setDoc(bookingRef,values);
-        }catch (err){
-            console.log(err)
+            const bookingRef = doc(reqBooking, customId);
+            await setDoc(bookingRef, values);
+
+            // Retrieve existing orders from localStorage
+            const existingOrders = JSON.parse(localStorage.getItem("ordered")) || [];
+
+            // Append the new order to the existing orders
+            const updatedOrders = [...existingOrders, values];
+
+            // Save the updated orders list back to localStorage
+            localStorage.setItem("ordered", JSON.stringify(updatedOrders));
+
+            navigate("/order-list");
+        } catch (err) {
+            console.error("Error creating booking:", err);
         }
-    }
+    };
+    const deleteBooking = async (id) => {
+        try {
+            // Delete from Firebase
+            const bookingRef = doc(db, "booking", id);
+            await deleteDoc(bookingRef);
+
+            // Retrieve the current list from localStorage
+            const existingOrders = JSON.parse(localStorage.getItem("ordered")) || [];
+
+            // Filter out the booking with the specified id
+            const updatedOrders = existingOrders.filter(order => order.id !== id);
+
+            // Update localStorage with the filtered orders
+            localStorage.setItem("ordered", JSON.stringify(updatedOrders));
+
+            console.log(`Booking with id ${id} deleted successfully.`);
+        } catch (e) {
+            console.error("Error deleting booking:", e);
+        }
+    };
+
+
     const getSeats = async () => {
         try {
             const data = await getDocs(reqSeats);
@@ -193,7 +227,7 @@ const useShowTime = () => {
     };
 
 
-    return { getShowTime,getMovieDetail,createBooking,getSeats,updateSeatsValue };
+    return { getShowTime,getMovieDetail,createBooking,getSeats,updateSeatsValue ,deleteBooking};
 };
 
 export { useShowTime };

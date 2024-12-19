@@ -1,8 +1,8 @@
 import React from "react";
 
-const CustomSearch = ({ value, onChange, type, placeholder, icon, name }) => {
+const CustomSearch = ({ value, onChange, type, placeholder, icon, name ,className}) => {
   return (
-    <div className="flex items-center border-b active:border-b transition-all hover:border-b my-5">
+    <div className={className}>
       <input
         name={name}
         value={value}

@@ -25,7 +25,7 @@ const HeaderApp = () => {
             `}>
       <nav style={{
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        }} className={`text-xl transition-all bg-transparent px-56 rounded-full ${
+        }} className={`text-xl transition-all bg-transparent px-56 rounded-full py-5 ${
           isScrolled
             ? "backdrop-blur-sm rounded-none w-screen justify-center "
             : "backdrop-blur-lg"
@@ -48,13 +48,14 @@ const HeaderApp = () => {
               </span>
             </Link>
           ))}
-          <span className="mx-5">
-             <CustomSearch
-                 placeholder="Search movie here"
-                 icon={<CiSearch />}
-                 type={"search"}
-             />
-          </span>
+          {/*<span className="mx-5">*/}
+          {/*   <CustomSearch*/}
+          {/*       className="flex items-center border-b active:border-b transition-all hover:border-b my-5"*/}
+          {/*       placeholder="Search movie here"*/}
+          {/*       icon={<CiSearch />}*/}
+          {/*       type={"search"}*/}
+          {/*   />*/}
+          {/*</span>*/}
         </div>
         {/*end nav data*/}
         <div className="flex font-bold">
