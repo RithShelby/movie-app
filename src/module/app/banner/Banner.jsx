@@ -9,7 +9,7 @@ const Banner = () => {
   };
 
   return (
-      <div className="hidden lg:block md:block">
+      <div className="hidden lg:block md:block lg:pt-0 md:pt-20">
         <Carousel autoplay afterChange={onChange} className="">
           {BannerData.map((item, index) => (
               <div

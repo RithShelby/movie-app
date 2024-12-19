@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import {auth, db} from "../../../config/firebase-config";
-import {reqGetUser, reqLogin, reqRegister, reSignInWithGoogle} from "./request";
-import {doc, getDocs, setDoc, where,query,} from "@firebase/firestore";
+import {reqGetUser, reqRegister, reSignInWithGoogle} from "./request";
+import {doc, getDocs, setDoc, where, query, updateDoc,} from "@firebase/firestore";
 import {useDispatch} from "react-redux";
 import {setAuthList} from "./authSlice";
-import login from "../components/Login";
-import {collection} from "firebase/firestore";
 
 const useAuth = () => {
     const navigate = useNavigate();
@@ -50,18 +48,29 @@ const useAuth = () => {
             console.log(e)
         }
     }
+    const updateUser = async (userId, values) => {
+        try {
+            // Firestore update
+            const userRef = doc(db, "userList", userId);
+            const updateData = {...values}
+            await updateDoc(userRef, updateData);
+            // Update localStorage
+            const currentUser = JSON.parse(localStorage.getItem("user")) || {};
+            const updatedUser = { ...currentUser, ...updateData };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+        } catch (err) {
+            console.error("Error updating user:", err);
+        }
+    };
     const SignInWithGoogle = () => {
         return reSignInWithGoogle()
             .then((result) => {
                 // Retrieve the user data from the result
                 const user = result.user;
-
                 // Store the user data in localStorage
                 localStorage.setItem("user", JSON.stringify(user));
-
                 // Navigate to the home page
                 navigate("/");
-
                 // Notify the user
                 alert("Success");
             })
@@ -72,37 +81,35 @@ const useAuth = () => {
     };
     const onLogin = async (values) => {
         try {
-            // Query for documents where email and password match
-            const q = query(
-                reqGetUser,
+            // Query Firestore for a user with matching email
+            const q = query(reqGetUser,
                 where("email", "==", values.email),
-                where("password", "==", values.password) // Ensure password is hashed and compared securely in production
+                where("password" , "==" , values.password)
             );
-
-            // Get matching documents
             const querySnapShot = await getDocs(q);
-
-            // Check if any documents are found
             if (!querySnapShot.empty) {
+                let authenticatedUser = null;
+                // Loop through results to find matching password
                 querySnapShot.forEach((doc) => {
-                    // Get user data
                     const userData = doc.data();
-                    console.log("User data:", userData);
-                    // Example: Save user data to localStorage
-                    localStorage.setItem("user", JSON.stringify(userData));
+                    authenticatedUser = { id: doc.id, ...userData };
                 });
-
-                // Redirect user or handle successful login
-                console.log("Login successful");
+                if (authenticatedUser) {
+                    // Save authenticated user data including ID to localStorage
+                    localStorage.setItem("user", JSON.stringify(authenticatedUser));
+                    console.log("Login successful");
+                    // Redirect user after successful login
+                    navigate("/");
+                } else {
+                    console.log("Invalid password");
+                }
             } else {
-                console.log("Invalid email or password");
+                console.log("User not found");
             }
-            navigate("/")
         } catch (e) {
             console.error("Error during login:", e);
         }
     };
-
     const OnLogout = async () => {
     try {
       await signOut(auth);
@@ -114,7 +121,7 @@ const useAuth = () => {
     }
   };
 
-  return { OnRegister, OnLogout, onLogin, SignInWithGoogle ,getUser,createUser };
+  return { OnRegister, OnLogout, onLogin, SignInWithGoogle ,getUser,createUser,updateUser };
 };
 
 export { useAuth };

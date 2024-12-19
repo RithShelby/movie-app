@@ -19,6 +19,7 @@ const Login = () => {
   return (
       <form onSubmit={formik.handleSubmit}>
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"email"}
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -27,6 +28,7 @@ const Login = () => {
             type={"email"}
         />
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"password"}
             value={formik.values.password}
             onChange={formik.handleChange}

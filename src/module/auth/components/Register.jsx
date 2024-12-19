@@ -25,6 +25,7 @@ const Register = () => {
   return (
       <form onSubmit={formik.handleSubmit}>
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"email"}
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -33,6 +34,7 @@ const Register = () => {
             type={"email"}
         />
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"password"}
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -41,6 +43,7 @@ const Register = () => {
             type={"password"}
         />
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"age"}
             value={formik.values.age}
             onChange={formik.handleChange}
@@ -49,6 +52,7 @@ const Register = () => {
             type={"number"}
         />
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"name"}
             value={formik.values.name}
             onChange={formik.handleChange}
@@ -57,6 +61,7 @@ const Register = () => {
             type={"text"}
         />
         <CustomSearch
+            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"nation"}
             value={formik.values.nation}
             onChange={formik.handleChange}

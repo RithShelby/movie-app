@@ -63,15 +63,15 @@ const ShowTime = () => {
     };
 
     return (
-        <div className="text-white lg:mx-24 py-10 md:px-10 px-3">
-            <h1 className="text-4xl font-bold mb-5">Now Showing</h1>
+        <div className="text-white lg:mx-24 md:pb-20 py-10 md:px-10 px-3">
+            <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold mb-5">Now Showing</h1>
             <CustomSwiper
                 data={ShowTimeList.map((item) => {
                     const isActive = selectedOption === item.date; // Check if the current item is active
                     return (
                         <div
                             key={item.date}
-                            className={`cursor-pointer flex flex-col text-center border rounded-lg w-56 py-3 lg:mx-5 md:mx-1 m-auto ${
+                            className={`cursor-pointer flex flex-col text-center border rounded-lg w-2/3 py-3 m-auto ${
                                 isActive ? "border-blue-900 shadow-inner shadow-blue-500" : ""
                             }`}
                             onClick={() => handleDateClick(item.date)}

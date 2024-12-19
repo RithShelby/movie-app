@@ -19,6 +19,7 @@ const MovieDetail = () => {
     const [selectedSeats, setSelectedSeats] = useState([]);
 const formik = useFormik({
     initialValues : {
+        movieImg : "",
         movieName : "",
         hall : "",
         date : "",
@@ -32,7 +33,6 @@ const formik = useFormik({
             await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats);
             console.log("Booking created and seats updated."); setSelectedSeats([]);
             setSelectedSeats([]); // Clear selected seats after booking
-            navigate("/")
         }catch (err){
             console.log(err)
         }
@@ -92,6 +92,7 @@ const formik = useFormik({
         );
         formik.setFieldValue("time", item.time || "N/A");
         formik.setFieldValue("totalPrice", )
+        formik.setFieldValue("movieImg",movieDetail.imgUrl)
 
     };
 
@@ -182,8 +183,6 @@ const formik = useFormik({
                                                     {seat.label}
                                                 </p>
                                             ))}
-
-
                                             </span>
                                             <span className="flex gap-5 items-center justify-center py-3">
                                                 <span className="flex flex-col items-center">
@@ -194,10 +193,12 @@ const formik = useFormik({
                                             </span>
 
                                         </div>
-                                        <div className="lg:w-1/2 lg:px-20 lg:mt-7 m-0">
-                                            <p className="font-bold lg:text-3xl md:text-3xl text-2xl text-start">Order Information</p>
-                                            {/*<hr className="border border-black/35 lg:my-5 "/>*/}
-                                            <div className="flex justify-between leading-9">
+                                        <div className="lg:w-1/2 lg:px-20 m-0">
+                                            <p className="font-bold lg:text-3xl md:text-3xl text-2xl text-start">Order
+                                                Information</p>
+                                            <img src={formik.values.movieImg}
+                                                 className="lg:hidden md:hidden block w-20 m-auto rounded-md mt-10" alt="img"/>
+                                            <div className="flex justify-between leading-9 lg:py-10">
                                                 <div className="text-start">
                                                     <p>Movie : </p>
                                                     <p>Hall : </p>
@@ -215,11 +216,13 @@ const formik = useFormik({
                                             </div>
                                             <hr className="border border-black/35 my-5 lg:flex md:flex hidden"/>
                                             <div className="bg-sky-500/20 p-2 my-3">
-                                                <p className="font-bold lg:text-3xl md:text-3xl text-xl text-start">Total : {formik.values.totalPrice} $</p>
+                                                <p className="font-bold lg:text-3xl md:text-3xl text-xl text-start">Total
+                                                    : {formik.values.totalPrice} $</p>
                                             </div>
                                             <span className="lg:flex md:flex lg:mt-5 md:mt-5 flex m-0 justify-start">
                                                  <button className="btn px-7" onClick={closeModal}>Back</button>
-                                                 <button type="submit" className="btn ms-5 bg-slate-700/100 text-white px-7 outline-black">Pay Now</button>
+                                                 <button type="submit"
+                                                         className="btn ms-5 bg-slate-700/100 text-white px-7 outline-black">Pay Now</button>
                                             </span>
                                         </div>
                                     </div>
