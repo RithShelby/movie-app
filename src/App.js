@@ -14,6 +14,7 @@ const App = () => {
           path="/"
           element={
               <ProtectRoute>
+
                   <LayoutApp />
               </ProtectRoute>
           }

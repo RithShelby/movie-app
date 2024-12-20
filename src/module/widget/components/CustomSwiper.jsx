@@ -9,12 +9,20 @@ const CustomSwiper = ({ data }) => {
             spaceBetween={10}
             centeredSlides={null}
             breakpoints={{
+                360: {
+                    slidesPerView: 4, // Small screens (>= 640px)
+                    spaceBetween: 10,
+                },
+                428: {
+                    slidesPerView: 4, // Small screens (>= 640px)
+                    spaceBetween: 5,
+                },
                 510: {
-                    slidesPerView: 2, // Small screens (>= 640px)
+                    slidesPerView: 4, // Small screens (>= 640px)
                     spaceBetween: 5,
                 },
                 768: {
-                    slidesPerView: 3, // Small screens (>= 640px)
+                    slidesPerView: 4, // Small screens (>= 640px)
                     spaceBetween: 10,
                 },
                 1024: {

@@ -22,7 +22,7 @@ const MobileHeader = () => {
                         <p className="font-extralight text-gray-400 text-lg">Enjoy your booking time !</p>
                     </span>
                     <span className="flex">
-                        <CiSearch className="text-3xl me-4" />
+                        {/*<CiSearch className="text-3xl me-4" />*/}
                         <Link to="/user"><SlSettings className="text-3xl" /></Link>
                     </span>
                 </div>
@@ -33,12 +33,12 @@ const MobileHeader = () => {
                     {mobileNavData.map((item,index) => (
                         <Link key={index} to={item.path} className="border-0 transition-transform duration-500 ease-in-out hover:scale-125" onClick={() => handleActive(index)}>
                            <span
-                               className={`flex flex-col items-center ${
-                                   active === index ? "border-b border-sky-400 " : ""
+                               className={`flex flex-col items-center text-lg  ${
+                                   active === index ? "border-b border-blue-500 " : ""
                                }`}
                            >
-                                <i className="text-3xl">{item.icon}</i>
-                                <p className="font-bold text-xl">{item.title}</p>
+                                <i className="text-xl">{item.icon}</i>
+                                <p className="font-extralight">{item.title}</p>
                               </span>
                         </Link>
                     ))}

@@ -4,35 +4,34 @@ import { useShowTime } from "./core/hook";
 import CustomSwiper from "../../widget/components/CustomSwiper";
 import CustomLoading from "../../widget/components/CustomLoading";
 import {Link} from "react-router-dom";
+import CustomSearch from "../../widget/components/CustomSearch";
+import {CiSearch} from "react-icons/ci";
 
 const ShowTime = () => {
     const { ShowTimeList } = useSelector((state) => state.showTimeList);
     const { getShowTime } = useShowTime();
     const [selectedOption, setSelectedOption] = useState(ShowTimeList.length > 0 ? ShowTimeList[0]?.date : null);
-    const [filteredShowTimes, setFilteredShowTimes] = useState([]); // Filtered showtimes
+    const [filteredShowTimes, setFilteredShowTimes] = useState([]);
     const [loading,setLoading] = useState(false);
 
-    // Fetch showtimes on component mount
     useEffect(() => {
          getShowTime();
     }, []);
 
-    // Set default to Monday's data in both filtered showtimes and dropdown
+    // Set default to Monday's data in both filtered showtimes
     useEffect(() => {
         if (ShowTimeList.length > 0) {
             const firstMonday = ShowTimeList.find((item) => item.date.day === "Monday");
             if (firstMonday) {
-                const mondayOption = {
-                    value: firstMonday.date,
-                    label: `${firstMonday.date.day}, ${firstMonday.date.date} ${firstMonday.date.month}`,
-                };
-                setSelectedOption(mondayOption); // Set Monday as the default in the dropdown
+                setSelectedOption(firstMonday.date); // Set Monday as the default in the dropdown
                 setFilteredShowTimes([firstMonday]); // Filter by Monday by default
             } else {
-                setFilteredShowTimes(ShowTimeList); // Fallback: show all data
+                setSelectedOption(ShowTimeList[0].date)
+                setFilteredShowTimes([ShowTimeList[0]]); // Fallback: show all data
             }
         }
     }, [ShowTimeList]);
+
     const filterShowTimes = (selectedDates) => {
         if (!selectedDates) {
             setFilteredShowTimes(ShowTimeList);
@@ -64,15 +63,17 @@ const ShowTime = () => {
 
     return (
         <div className="text-white lg:mx-24 md:pb-20 py-10 md:px-10 px-3">
-            <h1 className="lg:text-4xl md:text-3xl text-2xl font-bold mb-5">Now Showing</h1>
+            <span className="flex justify-between ">
+                <p className="lg:text-4xl md:text-3xl text-2xl font-bold mb-5">Now Showing</p>
+            </span>
             <CustomSwiper
                 data={ShowTimeList.map((item) => {
                     const isActive = selectedOption === item.date; // Check if the current item is active
                     return (
                         <div
                             key={item.date}
-                            className={`cursor-pointer flex flex-col text-center border rounded-lg w-2/3 py-3 m-auto ${
-                                isActive ? "border-blue-900 shadow-inner shadow-blue-500" : ""
+                            className={`cursor-pointer flex flex-col text-center border border-gray-400 rounded-lg lg:w-2/3 md:w-full lg:p-4 md:p-4 p-2 lg:text-lg md:text-lg text-sm text-gray-300 m-auto ${
+                                isActive ? "shadow-inner shadow-blue-500 rounded-lg border-0" : ""
                             }`}
                             onClick={() => handleDateClick(item.date)}
                         >
