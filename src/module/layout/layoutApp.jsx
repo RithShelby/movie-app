@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import HeaderApp from "./components/Header";
 import MobileHeader from "./components/Header/MobileHeader";
+import ScrollToTop from "../../helper/ScrollTop";
 
 const LayoutApp = () => {
   return (

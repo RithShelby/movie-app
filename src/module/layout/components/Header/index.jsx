@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
-import logo from "../../../../asset/image/Logo.png";
 import { endData, navData } from "../../../../data/Data";
-import CustomSearch from "../../../widget/components/CustomSearch";
-import { CiSearch } from "react-icons/ci";
-import { IoLogOutOutline } from "react-icons/io5";
-import { useAuth } from "../../../auth/core/hook";
-import user from "../../../auth/components/UserPage";
 
 const HeaderApp = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -48,14 +42,6 @@ const HeaderApp = () => {
               </span>
             </Link>
           ))}
-          {/*<span className="mx-5">*/}
-          {/*   <CustomSearch*/}
-          {/*       className="flex items-center border-b active:border-b transition-all hover:border-b my-5"*/}
-          {/*       placeholder="Search movie here"*/}
-          {/*       icon={<CiSearch />}*/}
-          {/*       type={"search"}*/}
-          {/*   />*/}
-          {/*</span>*/}
         </div>
         {/*end nav data*/}
         <div className="flex font-bold">

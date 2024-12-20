@@ -140,13 +140,18 @@ const useShowTime = () => {
             const size = bookingRequest.size;
             const customId = "order" + (size + 1);
             const bookingRef = doc(reqBooking, customId);
-            await setDoc(bookingRef, values);
+
+            // Include the custom ID in the values object
+            const bookingData = { ...values, id: customId };
+
+            // Save the booking data to Firestore
+            await setDoc(bookingRef, bookingData);
 
             // Retrieve existing orders from localStorage
             const existingOrders = JSON.parse(localStorage.getItem("ordered")) || [];
 
-            // Append the new order to the existing orders
-            const updatedOrders = [...existingOrders, values];
+            // Append the new booking data to the existing orders
+            const updatedOrders = [...existingOrders, bookingData];
 
             // Save the updated orders list back to localStorage
             localStorage.setItem("ordered", JSON.stringify(updatedOrders));
@@ -156,6 +161,7 @@ const useShowTime = () => {
             console.error("Error creating booking:", err);
         }
     };
+
     const deleteBooking = async (id) => {
         try {
             // Delete from Firebase
@@ -176,8 +182,6 @@ const useShowTime = () => {
             console.error("Error deleting booking:", e);
         }
     };
-
-
     const getSeats = async () => {
         try {
             const data = await getDocs(reqSeats);
