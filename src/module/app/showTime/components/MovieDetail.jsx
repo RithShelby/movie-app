@@ -9,7 +9,7 @@ import {PiArmchairFill} from "react-icons/pi";
 import {useFormik} from "formik";
 
 const MovieDetail = () => {
-    const navigate = useNavigate();
+    const { ShowTimeList } = useSelector((state) => state.showTimeList);
     const { id } = useParams();
     const { getMovieDetail,createBooking,updateSeatsValue} = useShowTime();
     const movieDetail = useSelector((state) => state.showTimeList.movieDetail);

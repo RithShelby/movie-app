@@ -37,7 +37,6 @@ const ShowTime = () => {
             setFilteredShowTimes(ShowTimeList);
         } else {
             const datesArray = Array.isArray(selectedDates) ? selectedDates.map((opt) => opt.value) : [selectedDates.value];
-            // console.log("Dates Array:", datesArray);
             const filtered = ShowTimeList.filter((item) =>
                 datesArray.some(
                     (date) =>
@@ -89,7 +88,7 @@ const ShowTime = () => {
                     <CustomLoading message={"Loading ..."}/>
                 ) : (
                     filteredShowTimes.map((item, index) => (
-                            <div key={index} className="lg:columns-4 md:columns-2 columns-2 gap-4 px-5 mt-5 cursor-pointer">
+                            <div key={index} className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 cursor-pointer">
                                 {item.movieId.map((movie, idx) => (
                                     <div key={movie.id} className="lg:p-5 md:px-2 md:py-5 pb-10">
                                         <div className="flex flex-col justify-start text-start">
@@ -97,7 +96,7 @@ const ShowTime = () => {
                                                 <img
                                                     src={movie.imgUrl}
                                                     alt={movie.title.value}
-                                                    className="rounded-lg w-full"
+                                                    className="rounded-lg lg:h-96 md:h-80 h-64"
                                                 />
                                             </Link>
 
