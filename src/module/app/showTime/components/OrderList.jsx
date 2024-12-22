@@ -46,7 +46,7 @@ const OrderList = () => {
                     </div>
                 ))
             ) : (
-                <p>No orders found.</p>
+                <p className="text-center mt-20 text-xl font-extralight" >You still not book any movies.🤷‍♂️</p>
             )}
         </div>
     );

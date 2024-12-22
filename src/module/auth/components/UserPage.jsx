@@ -16,6 +16,7 @@ const UserPage = () => {
             age: null,
             name: "",
             nation: "",
+            phone : ""
         },
         onSubmit: async (values) => {
             if (user && user.id) {
@@ -54,6 +55,7 @@ const UserPage = () => {
                 age: user.age || null,
                 name: user.name || "",
                 nation: user.nation || "",
+                phone : user.phone || "",
             });
         }
     }, [user]);
@@ -125,9 +127,9 @@ const UserPage = () => {
                         <span>
                              <label>PhoneNumber</label>
                             <CustomSearch
-                                name="nation"
+                                name="phone"
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
-                                value={formik.values.nation}
+                                value={formik.values.phone}
                                 onChange={formik.handleChange}
                                 placeholder="Nation"
                                 type="text"
