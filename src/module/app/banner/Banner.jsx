@@ -4,13 +4,9 @@ import { BannerData } from "../../../data/Data";
 import { IoPlay } from "react-icons/io5";
 
 const Banner = () => {
-  const onChange = (currentSlide) => {
-    // console.log(currentSlide);
-  };
-
   return (
       <div className="hidden lg:block md:block lg:pt-0 md:pt-20">
-        <Carousel autoplay afterChange={onChange} className="">
+        <Carousel autoplay className="">
           {BannerData.map((item, index) => (
               <div
                   key={index}

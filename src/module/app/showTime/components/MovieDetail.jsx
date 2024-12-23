@@ -31,7 +31,6 @@ const formik = useFormik({
         try {
             await createBooking(values);
             await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats);
-            console.log("Booking created and seats updated."); setSelectedSeats([]);
             setSelectedSeats([]); // Clear selected seats after booking
         }catch (err){
             console.log(err)
@@ -43,10 +42,10 @@ const formik = useFormik({
             await getMovieDetail(id); // Fetch movie by ID
             setTimeout(() => {
                 setLoading(false);
-            }, 500);
+            }, 100);
         };
-        if (id) {
-            fetchMovie();
+        if (id){
+             fetchMovie();
         }
     }, [id]);
 

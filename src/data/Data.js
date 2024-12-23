@@ -1,12 +1,13 @@
-import { IoLocationOutline, IoTicketOutline } from "react-icons/io5";
+import {IoHomeOutline, IoLocationOutline, IoTicketOutline} from "react-icons/io5";
 import React from "react";
 import { RiMovie2Line } from "react-icons/ri";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import {SlSettings} from "react-icons/sl";
+import {FaHouseChimney} from "react-icons/fa6";
 
 const navData = [
   {
-    icon: <RiMovie2Line />,
+    icon:  <IoHomeOutline />,
     title: "Home",
     path: "/",
   },
@@ -36,7 +37,7 @@ const endData = [
 ];
 const mobileNavData = [
   {
-    icon: <RiMovie2Line />,
+    icon:  <IoHomeOutline />,
     title: "Home",
     path: "/",
   },

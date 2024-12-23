@@ -10,7 +10,7 @@ import {CiSearch} from "react-icons/ci";
 const ShowTime = () => {
     const { ShowTimeList } = useSelector((state) => state.showTimeList);
     const { getShowTime } = useShowTime();
-    const [selectedOption, setSelectedOption] = useState(ShowTimeList.length > 0 ? ShowTimeList[0]?.date : null);
+    const [selectedOption, setSelectedOption] = useState(null);
     const [filteredShowTimes, setFilteredShowTimes] = useState([]);
     const [loading,setLoading] = useState(false);
 
@@ -56,7 +56,7 @@ const ShowTime = () => {
             filterShowTimes({ value: date });
             setSelectedOption(date); // Set the clicked date as active
             setLoading(false)
-        },500)
+        },100)
 
     };
 
