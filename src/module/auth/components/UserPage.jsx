@@ -131,7 +131,7 @@ const UserPage = () => {
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 value={formik.values.phone}
                                 onChange={formik.handleChange}
-                                placeholder="Nation"
+                                placeholder="Phone Number"
                                 type="text"
                             />
                         </span>
