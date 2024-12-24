@@ -55,6 +55,12 @@ const mobileNavData = [
 const BannerData = [
   {
     id: 1,
+    image: require("../asset/image/oppenhemer.jpg"),
+    title: "Oppenheimer",
+    desc: "A dramatization of the life story of J. Robert Oppenheimer, the physicist who had a large hand in the development of the atomic bombs that brought an end to World War II.",
+  },
+  {
+    id: 2,
     image: require("../asset/image/spider1.jpg"),
     title: "Spider-man Mile Morales",
     desc:
@@ -64,16 +70,11 @@ const BannerData = [
     detail: "/",
   },
   {
-    id: 2,
+    id: 3,
     image: require("../asset/image/luca.jpeg"),
     title: "Luca",
     desc: "Set against the stunning backdrop of the Italian Riviera, Luca tells the heartwarming story of an unforgettable summer where two friends, one human and one sea monster, navigate the wonders and challenges of friendship, freedom, and self-discovery",
   },
-  {
-    id: 3,
-    image: require("../asset/image/cap1.jpeg"),
-    title: "Captain America: Brave New World",
-    desc: "Captain America's journey continues in a world that’s rapidly changing. With new threats emerging and old alliances tested, Steve Rogers faces his greatest challenge yet. Get ready for a bold new chapter in the legacy of the Star-Spangled Avenger!",
-  },
+
 ];
 export { endData, navData, BannerData,mobileNavData };
