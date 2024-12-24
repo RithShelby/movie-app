@@ -12,7 +12,6 @@ const MobileHeader = () => {
     }
     return (
         <div className="lg:hidden flex">
-
             <LocalStorage setData={setUser} />
             {/* Top navigation bar */}
             <nav className="fixed top-0 inset-x-0 bg-gradient-to-b to-zinc-900 from-slate-900 text-white z-50">
@@ -29,7 +28,7 @@ const MobileHeader = () => {
             </nav>
             {/* Bottom navigation bar */}
             <nav className="fixed bottom-0 inset-x-0 backdrop-blur-lg z-50 mx-5 my-3 rounded-3xl shadow-lg shadow-gray-500">
-                <div className="flex justify-evenly items-center p-4 text-white">
+                <div className="flex justify-evenly items-center p-4 text-white font-bold ">
                     {mobileNavData.map((item,index) => (
                         <Link key={index} to={item.path} className="border-0 transition-transform duration-500 ease-in-out hover:scale-125" onClick={() => handleActive(index)}>
                            <span
@@ -37,8 +36,8 @@ const MobileHeader = () => {
                                    active === index ? "border-b border-blue-500 " : ""
                                }`}
                            >
-                                <i className="text-xl">{item.icon}</i>
-                                <p className="font-extralight">{item.title}</p>
+                                <i className="text-3xl">{item.icon}</i>
+                                <p className="font-bold text-xl">{item.title}</p>
                               </span>
                         </Link>
                     ))}

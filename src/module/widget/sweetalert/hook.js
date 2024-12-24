@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 
-const Success = () => {
+const SuccessAlert = () => {
   Swal.fire({
-    title: "Success!",
+    title: "Payment Success 🙏🏼",
     text: "You clicked the button!",
     icon: "success",
   });
@@ -14,4 +14,4 @@ const ErrorAlert = () => {
     icon: "error",
   });
 };
-export { Success, ErrorAlert };
+export { SuccessAlert, ErrorAlert };
