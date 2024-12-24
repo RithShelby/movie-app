@@ -3,10 +3,8 @@ import {getDocs, getDoc, doc, setDoc,updateDoc,deleteDoc} from "@firebase/firest
 import {setMovieDetail, setSeats, setShowTime} from "./ShowTimeSlice";
 import {reGetShowTime, reMovieDetail, reqBooking, reqSeats,} from "./request";
 import {db} from "../../../../config/firebase-config";
-import {useNavigate} from "react-router-dom";
 const useShowTime = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const getShowTime = async () => {
         try {
             const data = await getDocs(reGetShowTime);
@@ -54,9 +52,7 @@ const useShowTime = () => {
                     };
                 })
             );
-
             dispatch(setShowTime(mapData));
-            console.log(mapData);
         } catch (err) {
             console.error("Error fetching showtimes:", err);
         }
@@ -155,8 +151,6 @@ const useShowTime = () => {
 
             // Save the updated orders list back to localStorage
             localStorage.setItem("ordered", JSON.stringify(updatedOrders));
-
-            navigate("/order-list");
         } catch (err) {
             console.error("Error creating booking:", err);
         }

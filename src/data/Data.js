@@ -14,7 +14,7 @@ const navData = [
   {
     icon: <IoLocationOutline />,
     title: "Cinema",
-    path: "/",
+    path: "/cinema",
   },
 ];
 
@@ -44,7 +44,7 @@ const mobileNavData = [
   {
     icon: <IoLocationOutline />,
     title: "Cinema",
-    path: "/",
+    path: "/cinema",
   },
   {
     icon: <IoTicketOutline />,

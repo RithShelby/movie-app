@@ -1,6 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { FreeMode } from "swiper/modules";
 import "swiper/css/free-mode";
 
 const CustomSwiper = ({ data }) => {

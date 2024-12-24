@@ -7,13 +7,13 @@ import CustomBgImage from "../../../widget/components/CustomBgImage";
 import {IoArrowBackOutline} from "react-icons/io5";
 import {PiArmchairFill} from "react-icons/pi";
 import {useFormik} from "formik";
+import {SuccessAlert} from "../../../widget/sweetalert/hook";
 
 const MovieDetail = () => {
-    const { ShowTimeList } = useSelector((state) => state.showTimeList);
+    const navigate = useNavigate();
     const { id } = useParams();
     const { getMovieDetail,createBooking,updateSeatsValue} = useShowTime();
     const movieDetail = useSelector((state) => state.showTimeList.movieDetail);
-    console.log(movieDetail)
     const [loading, setLoading] = useState(true);
     const [selectedShowTime, setSelectedShowTime] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
@@ -28,15 +28,28 @@ const formik = useFormik({
         selectedSeats : [],
     },
     onSubmit:async (values) => {
+        setLoading(true); // Start loading indicator
         try {
             await createBooking(values);
             await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats);
-            setSelectedSeats([]); // Clear selected seats after booking
-        }catch (err){
-            console.log(err)
+            // Wait for 2 seconds to simulate loading
+            setTimeout(() => {
+                setLoading(false); // Stop loading indicator
+                SuccessAlert(); // Show success alert
+                setSelectedSeats([]); // Clear selected seats after booking
+                navigate("/order-list");
+                // closeModal();
+            }, 200);
+        } catch (err) {
+            setLoading(false); // Ensure loading stops in case of error
+            console.error(err);
         }
     }
 })
+    const closeModal = () => {
+        setSelectedShowTime(null);
+        setSelectedSeats([]); // Reset selected seats
+    };
     useEffect(() => {
         const fetchMovie = async () => {
             await getMovieDetail(id); // Fetch movie by ID
@@ -95,10 +108,7 @@ const formik = useFormik({
 
     };
 
-    const closeModal = () => {
-        setSelectedShowTime(null);
-        setSelectedSeats([]); // Reset selected seats
-    };
+
     return (
         <div className="flex flex-col bg-slate-950 text-white lg:p-0 pb-20">
             <div className="backdrop-blur-xl lg:px-48 lg:py-36">
