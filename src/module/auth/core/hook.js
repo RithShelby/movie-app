@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import {getAuth, GoogleAuthProvider, signOut,signInWithRedirect, getRedirectResult} from "firebase/auth";
+import {signOut} from "firebase/auth";
 import {auth, db} from "../../../config/firebase-config";
 import {reqGetUser, reqRegister, reSignInWithGoogle} from "./request";
 import {doc, getDocs, setDoc, where, query, updateDoc,} from "@firebase/firestore";
 import {useDispatch} from "react-redux";
 import {setAuthList} from "./authSlice";
 import {ErrorAlert} from "../../widget/sweetalert/hook";
-import {useEffect} from "react";
 
 const useAuth = () => {
     const navigate = useNavigate();
@@ -46,6 +45,20 @@ const useAuth = () => {
             console.log(e)
         }
     }
+    const SignInWithGoogle = () => {
+        return reSignInWithGoogle()
+            .then((result) => {
+                // Retrieve the user data from the result
+                const user = result.user;
+                // Store the user data in localStorage
+                localStorage.setItem("user", JSON.stringify(user));
+                // Navigate to the home page
+                navigate("/");
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    };
     const updateUser = async (userId, values) => {
         try {
             // Firestore update
@@ -60,26 +73,7 @@ const useAuth = () => {
             console.error("Error updating user:", err);
         }
     };
-    const SignInWithGoogle = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithRedirect(auth, provider).catch((error) => {
-            console.error("Sign-In Error:", error);
-        });
-    };
 
-    useEffect(() => {
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result) {
-                    const user = result.user;
-                    localStorage.setItem("user", JSON.stringify(user));
-                    navigate("/");
-                }
-            })
-            .catch((error) => {
-                console.error("Redirect result error:", error);
-            });
-    }, [auth, navigate]);
     const onLogin = async (values) => {
         try {
             // Query Firestore for a user with matching email
@@ -124,7 +118,7 @@ const useAuth = () => {
     }
   };
 
-  return { OnRegister, OnLogout, onLogin, SignInWithGoogle ,getUser,createUser,updateUser };
+  return { OnRegister, OnLogout, onLogin, SignInWithGoogle ,getUser,createUser,updateUser};
 };
 
 export { useAuth };
