@@ -96,7 +96,7 @@ const ShowTime = () => {
                                                 <img
                                                     src={movie.imgUrl}
                                                     alt={movie.title.value}
-                                                    className="rounded-lg lg:h-96 md:h-80 h-64"
+                                                    className="rounded-lg lg:h-96 md:h-72 h-64 m-auto"
                                                 />
                                             </Link>
 

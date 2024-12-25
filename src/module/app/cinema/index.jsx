@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {useTheater} from "./core/hook";
 import {useSelector} from "react-redux";
+import ScrollToTop from "../../../helper/ScrollTop";
 
 const CinemaPage = () => {
   const {TheaterList} = useSelector((state) => state.TheaterList);
@@ -11,6 +12,7 @@ const CinemaPage = () => {
   }, []);
   return (
       <div className="lg:py-40 md:py-36 text-center text-white overflow-y-auto h-screen py-10">
+          <ScrollToTop/>
         <p className="text-4xl font-bold text-sky-400">Watcher's Hall</p>
           <p className="my-10 tracking-wider lg:mx-56 md:mx-10 mx-5 text-lg leading-8 text-gray-300 text-start">We now have only 3 exclusive halls, each offering a unique cinematic experience! With limited seats available, make sure to book your tickets before they're gone. Enjoy the best sound, comfortable seating,
               and the latest movies in a premium setting. Don't miss out—reserve your spot now and experience movie magic like never before!

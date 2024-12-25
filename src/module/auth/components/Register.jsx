@@ -6,9 +6,14 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useFormik } from "formik";
 import { useAuth } from "../core/hook";
 import {FaPerson} from "react-icons/fa6";
+import {LuUserRound} from "react-icons/lu";
+import {CiFlag1} from "react-icons/ci";
+import {MdOutlineLocalPhone} from "react-icons/md";
+import {TbPassword} from "react-icons/tb";
+import {PiPasswordBold} from "react-icons/pi";
 
 const Register = () => {
-  const {createUser ,SignInWithGoogle} = useAuth();
+  const {createUser ,SignInWithGoogle,OnRegister} = useAuth();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -16,9 +21,11 @@ const Register = () => {
       age : null,
       name : "",
       nation : "",
+        phone : ""
     },
     onSubmit: async (values) => {
       await createUser(values);
+      await OnRegister(values)
         console.log(values);
     },
   });
@@ -39,7 +46,7 @@ const Register = () => {
             value={formik.values.password}
             onChange={formik.handleChange}
             placeholder="Password"
-            icon={<RiLockPasswordLine/>}
+            icon={<PiPasswordBold />}
             type={"password"}
         />
         <CustomSearch
@@ -57,7 +64,7 @@ const Register = () => {
             value={formik.values.name}
             onChange={formik.handleChange}
             placeholder="Name"
-            icon={<HiOutlineMail/>}
+            icon={<LuUserRound />}
             type={"text"}
         />
         <CustomSearch
@@ -66,9 +73,18 @@ const Register = () => {
             value={formik.values.nation}
             onChange={formik.handleChange}
             placeholder="Nation"
-            icon={<HiOutlineMail/>}
+            icon={<CiFlag1 />}
             type={"text"}
         />
+          <CustomSearch
+              className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
+              name={"phone"}
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              placeholder="Phone"
+              icon={<MdOutlineLocalPhone />}
+              type={"text"}
+          />
         <button className="btn w-full text-lg" type="submit">
           Sign-Up
         </button>

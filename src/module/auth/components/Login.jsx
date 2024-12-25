@@ -1,10 +1,10 @@
 import React from "react";
 import CustomSearch from "../../widget/components/CustomSearch";
 import { HiOutlineMail } from "react-icons/hi";
-import { RiLockPasswordLine } from "react-icons/ri";
 import {Link} from "react-router-dom";
 import { useAuth } from "../core/hook";
 import { useFormik } from "formik";
+import {PiPasswordBold} from "react-icons/pi";
 const Login = () => {
   const { onLogin } = useAuth();
   const formik = useFormik({
@@ -33,7 +33,7 @@ const Login = () => {
             value={formik.values.password}
             onChange={formik.handleChange}
             placeholder="Password"
-            icon={<RiLockPasswordLine/>}
+            icon={<PiPasswordBold/>}
             type={"password"}
         />
         <button className="btn w-full text-lg" type="submit">

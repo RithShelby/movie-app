@@ -9,7 +9,8 @@ const LayoutApp = () => {
       <div className="bg-gradient-to-br from-zinc-900 to-slate-900 h-screen">
           <HeaderApp/>
           <MobileHeader/>
-          <div className="lg:p-0 md:p-0 py-20 h-full lg:overflow-visible overflow-y-auto">
+          <div className="lg:p-0 md:p-0 py-20 h-full lg:overflow-visible">
+              <ScrollToTop/>
               <Outlet/>
           </div>
       </div>

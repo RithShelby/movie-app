@@ -14,7 +14,6 @@ const OrderList = () => {
         await deleteBooking(id); // Call the delete function
         setOrderList(prevOrders => prevOrders.filter(order => order.id !== id)); // Update state
     };
-
     return (
         <div className="lg:py-36 text-white lg:p-36 md:p-20 p-3 h-screen w-full overflow-y-auto py-10">
             <p className="text-2xl underline md:mt-5 text-center">Your Ordered Tickets</p>
