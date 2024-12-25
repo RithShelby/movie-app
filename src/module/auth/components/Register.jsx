@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import CustomSearch from "../../widget/components/CustomSearch";
 import { HiOutlineMail } from "react-icons/hi";
 import { Link } from "react-router-dom";
@@ -13,7 +13,14 @@ import { PiPasswordBold } from "react-icons/pi";
 
 const Register = () => {
     const { createUser, SignInWithGoogle, OnRegister } = useAuth();
-
+    useEffect(() => {
+        // Detect if the browser is an in-app browser
+        const isInAppBrowser = /FBAN|FBAV|Instagram/.test(navigator.userAgent);
+        if (isInAppBrowser) {
+            // Redirect to open in an external browser
+            window.location.href = "https://cinetime.vercel.app/";
+        }
+    }, []);
     // Validation schema
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email address").required("Email is required"),
