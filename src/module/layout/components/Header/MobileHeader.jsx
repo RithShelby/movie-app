@@ -36,8 +36,8 @@ const MobileHeader = () => {
                                    active === index ? "border-b border-blue-500 " : ""
                                }`}
                            >
-                                <i className="text-3xl">{item.icon}</i>
-                                <p className="font-bold text-xl">{item.title}</p>
+                                <i className="text-2xl">{item.icon}</i>
+                                <p className="font-bold text-sm">{item.title}</p>
                               </span>
                         </Link>
                     ))}

@@ -25,9 +25,7 @@ const HeaderApp = () => {
             : "backdrop-blur-lg"
         }`}
       >
-        {/*logo*/}
-        <p className="">Watcher</p>
-        {/*<img src={logo} alt="Logo" className="custom-logo" />*/}
+        <Link to="/" className="font-bold text-2xl">Watcher</Link>
         {/*mid nav data*/}
         <div className="flex font-bold mx-20">
           {navData.map((item, index) => (

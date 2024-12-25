@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 const UserPage = () => {
     const [user, setUser] = useState(null); // User data from localStorage
     const { OnLogout, updateUser } = useAuth(); // Access updateUser and OnLogout hooks
-
     // Initialize formik with empty initial values
     const formik = useFormik({
         initialValues: {

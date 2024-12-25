@@ -5,6 +5,7 @@ import {reqGetUser, reqRegister, reSignInWithGoogle} from "./request";
 import {doc, getDocs, setDoc, where, query, updateDoc,} from "@firebase/firestore";
 import {useDispatch} from "react-redux";
 import {setAuthList} from "./authSlice";
+import {ErrorAlert} from "../../widget/sweetalert/hook";
 
 const useAuth = () => {
     const navigate = useNavigate();
@@ -21,29 +22,25 @@ const useAuth = () => {
             console.log(e)
         }
     }
-  const OnRegister = (values) => {
+    const OnRegister = (values) => {
     return reqRegister(values)
       .then(() => {
         navigate("/");
         localStorage.setItem("user", JSON.stringify(values));
-        alert("Success");
-          console.log(values);
       })
       .catch((error) => {
         console.log(error.message);
-        alert("Error")
       });
   };
     const createUser = async (values) => {
         try {
             const userRequest = await getDocs(reqGetUser);
             const size = userRequest.size;
-        //customId
+            //customId
             const customId = "user" + (size+1);
             const userRef = doc(reqGetUser,customId);
             await setDoc(userRef,values);
             navigate("/");
-            console.log("Create Success")
         }catch (e) {
             console.log(e)
         }
@@ -71,12 +68,9 @@ const useAuth = () => {
                 localStorage.setItem("user", JSON.stringify(user));
                 // Navigate to the home page
                 navigate("/");
-                // Notify the user
-                alert("Success");
             })
             .catch((err) => {
-                // Handle errors
-                alert(`Error: ${err.message}`);
+                console.log(err)
             });
     };
     const onLogin = async (values) => {
@@ -102,11 +96,14 @@ const useAuth = () => {
                     navigate("/");
                 } else {
                     console.log("Invalid password");
+                    ErrorAlert();
                 }
             } else {
+                ErrorAlert();
                 console.log("User not found");
             }
         } catch (e) {
+
             console.error("Error during login:", e);
         }
     };
@@ -117,7 +114,6 @@ const useAuth = () => {
       localStorage.removeItem("user");
     } catch (error) {
       console.log(error.message);
-      alert("Error")
     }
   };
 

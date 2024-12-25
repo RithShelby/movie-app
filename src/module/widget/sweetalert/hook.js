@@ -9,8 +9,8 @@ const SuccessAlert = () => {
 };
 const ErrorAlert = () => {
   Swal.fire({
-    title: "Try Again !",
-    text: "Something went wrong!",
+    title: "Please try again !",
+    text: "Check your email & password again !",
     icon: "error",
   });
 };

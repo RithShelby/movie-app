@@ -62,7 +62,7 @@ const BannerData = [
   {
     id: 2,
     image: require("../asset/image/spider1.jpg"),
-    title: "Spider-man Mile Morales",
+    title: "Spider-Man",
     desc:
       "Join Miles Morales as he leaps through the multiverse, meeting a diverse team of Spider-People on a" +
       " mission to protect the fabric of existence itself. It's a high-flying adventure full of heart, action, and a new hero discovering his powers!",
