@@ -5,13 +5,21 @@ import {Link} from "react-router-dom";
 import { useAuth } from "../core/hook";
 import { useFormik } from "formik";
 import {PiPasswordBold} from "react-icons/pi";
+import * as Yup from "yup"; // Import Yup
 const Login = () => {
   const { onLogin } = useAuth();
+    const validationSchema = Yup.object({
+        email: Yup.string().email("Invalid email format").required("Email is required"),
+        password: Yup.string()
+            .min(10, "Password must be at least 10 characters")
+            .required("Password is required"),
+    });
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+      validationSchema,
     onSubmit: async (values) => {
         await onLogin(values);
     },
@@ -27,6 +35,9 @@ const Login = () => {
             icon={<HiOutlineMail/>}
             type={"email"}
         />
+          {formik.touched.email && formik.errors.email && (
+              <p className="text-red-500 text-sm">{formik.errors.email}</p>
+          )}
         <CustomSearch
             className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
             name={"password"}
@@ -35,7 +46,10 @@ const Login = () => {
             placeholder="Password"
             icon={<PiPasswordBold/>}
             type={"password"}
-        />
+        />{formik.touched.password && formik.errors.password && (
+          <p className="text-red-500 text-sm">{formik.errors.password}</p>
+      )}
+
         <button className="btn w-full text-lg" type="submit">
           Login
         </button>

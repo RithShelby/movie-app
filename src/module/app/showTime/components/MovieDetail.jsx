@@ -27,19 +27,17 @@ const formik = useFormik({
         totalPrice: "",
         selectedSeats : [],
     },
-    onSubmit:async (values) => {
+    onSubmit: async (values) => {
         setLoading(true); // Start loading indicator
+        closeModal(); // Close the modal immediately
         try {
-            await createBooking(values);
-            await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats);
-            // Wait for 2 seconds to simulate loading
+            await createBooking(values); // Create booking
+            await updateSeatsValue(selectedShowTime.theaterId.seatsId.id, formik.values.selectedSeats); // Update seat values
             setTimeout(() => {
                 setLoading(false); // Stop loading indicator
-                SuccessAlert(); // Show success alert
-                setSelectedSeats([]); // Clear selected seats after booking
-                navigate("/order-list");
-                // closeModal();
-            }, 200);
+                SuccessAlert({ title: "Completed Payment !", text: "Thank you see 🙏🏼" });
+                navigate("/order-list"); // Navigate to order list
+            }, 500); // Brief delay for loading feedback
         } catch (err) {
             setLoading(false); // Ensure loading stops in case of error
             console.error(err);
