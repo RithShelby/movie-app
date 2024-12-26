@@ -11,13 +11,13 @@ const CinemaPage = () => {
     getTheater();
   }, []);
   return (
-      <div className="lg:py-40 md:py-36 text-center text-white overflow-y-auto h-screen py-10">
+      <div className="lg:py-40 md:py-36 text-center text-white bg-gradient-to-br from-zinc-900 to-slate-900 overflow-y-auto h-screen pb-32 pt-10">
           <ScrollToTop/>
         <p className="text-4xl font-bold text-sky-400">Watcher's Hall</p>
           <p className="my-10 tracking-wider lg:mx-56 md:mx-10 mx-5 text-lg leading-8 text-gray-300 text-start">We now have only 3 exclusive halls, each offering a unique cinematic experience! With limited seats available, make sure to book your tickets before they're gone. Enjoy the best sound, comfortable seating,
               and the latest movies in a premium setting. Don't miss out—reserve your spot now and experience movie magic like never before!
           </p>
-          <div className="grid gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:px-10 ">
+          <div className="grid gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:px-10">
               {TheaterList.map((item) => (
                   <div className="relative mx-3 transition ease-in-out duration-500 hover:scale-95 ">
                       <img src={item.theaterImg} className="w-full rounded-2xl m-auto filter brightness-75 shadow-lg shadow-sky-400" alt={item.theaterImg}/>

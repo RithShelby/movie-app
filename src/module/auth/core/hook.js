@@ -5,7 +5,7 @@ import {reqGetUser, reqRegister, reSignInWithGoogle} from "./request";
 import {doc, getDocs, setDoc, where, query, updateDoc,} from "@firebase/firestore";
 import {useDispatch} from "react-redux";
 import {setAuthList} from "./authSlice";
-import {ErrorAlert} from "../../widget/sweetalert/hook";
+import {ErrorAlert, SuccessAlert} from "../../widget/sweetalert/hook";
 
 const useAuth = () => {
     const navigate = useNavigate();
@@ -63,17 +63,19 @@ const useAuth = () => {
         try {
             // Firestore update
             const userRef = doc(db, "userList", userId);
-            const updateData = {...values}
-            await updateDoc(userRef, updateData);
+            await updateDoc(userRef, values);
+
             // Update localStorage
             const currentUser = JSON.parse(localStorage.getItem("user")) || {};
-            const updatedUser = { ...currentUser, ...updateData };
+            const updatedUser = { ...currentUser, ...values };
             localStorage.setItem("user", JSON.stringify(updatedUser));
-        } catch (err) {
-            console.error("Error updating user:", err);
+            SuccessAlert({ title: "Setting Updated!", text: "Thank you 🙏🏼" });
+            console.log("User profile updated successfully.");
+        } catch (error) {
+            console.error("Error updating user:", error);
+            ErrorAlert();
         }
     };
-
     const onLogin = async (values) => {
         try {
             // Query Firestore for a user with matching email
