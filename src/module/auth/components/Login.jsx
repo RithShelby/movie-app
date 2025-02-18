@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import {PiPasswordBold} from "react-icons/pi";
 import * as Yup from "yup"; // Import Yup
 const Login = () => {
-  const { onLogin } = useAuth();
+  const { onLogin ,SignInWithGoogle} = useAuth();
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email format").required("Email is required"),
         password: Yup.string()
@@ -53,6 +53,17 @@ const Login = () => {
         <button className="btn w-full text-lg" type="submit">
           Login
         </button>
+          <Link
+              className="flex items-center btn-outline btn hover:bg-white hover:text-black text-white mt-5 border-1"
+              to="/"
+              onClick={SignInWithGoogle}
+          >
+              <img
+                  src="https://img.icons8.com/color/48/000000/google-logo.png"
+                  alt="Google Logo"
+              />
+              <span>Continue with Google</span>
+          </Link>
         <div className="my-5">
           <span className="font-light mb-5 flex">
             <p className="pe-3"> Don't have account ? </p>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const CustomSearch = ({ value, onChange, type, placeholder, icon, name ,className}) => {
+const CustomInput = ({ value, onChange, type, placeholder, icon, name ,className}) => {
   return (
       <div className={className}>
           <i className="text-white text-3xl cursor-pointer relative ">{icon}</i>
@@ -17,4 +17,4 @@ const CustomSearch = ({ value, onChange, type, placeholder, icon, name ,classNam
   );
 };
 
-export default CustomSearch;
+export default CustomInput;
