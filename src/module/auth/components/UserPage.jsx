@@ -3,6 +3,7 @@ import LocalStorage from "../../../helper/LocalStorage";
 import { useAuth } from "../core/hook";
 import CustomSearch from "../../widget/components/CustomSearch";
 import { useFormik } from "formik";
+import CustomInput from "../../widget/components/CustomSearch";
 
 const UserPage = () => {
     const [user, setUser] = useState(null); // User data from localStorage
@@ -54,7 +55,7 @@ const UserPage = () => {
                     <div className="text-gray-300 lg:columns-2">
                         <span>
                              <label className="m-auto">Email</label>
-                            <CustomSearch
+                            <CustomInput
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 name="email"
                                 value={formik.values.email}
@@ -65,7 +66,7 @@ const UserPage = () => {
                         </span>
                         <span>
                             <label>Password</label>
-                            <CustomSearch
+                            <CustomInput
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 name="password"
                                 value={formik.values.password}
@@ -76,7 +77,7 @@ const UserPage = () => {
                         </span>
                         <span>
                              <label>Age</label>
-                            <CustomSearch
+                            <CustomInput
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 name="age"
                                 value={formik.values.age}
@@ -87,7 +88,7 @@ const UserPage = () => {
                         </span>
                         <span>
                             <label>Name</label>
-                            <CustomSearch
+                            <CustomInput
                                 name="name"
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 value={formik.values.name}
@@ -98,7 +99,7 @@ const UserPage = () => {
                         </span>
                         <span>
                              <label>Nation</label>
-                            <CustomSearch
+                            <CustomInput
                                 name="nation"
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 value={formik.values.nation}
@@ -109,7 +110,7 @@ const UserPage = () => {
                         </span>
                         <span>
                              <label>PhoneNumber</label>
-                            <CustomSearch
+                            <CustomInput
                                 name="phone"
                                 className="border rounded-md border-gray-500 lg:w-full lg:mb-5 md:mb-5 sm:py-2 mb-3"
                                 value={formik.values.phone}
