@@ -46,8 +46,41 @@ const useAuth = () => {
             console.log(e)
         }
     }
+    // const SignInWithGoogle = () => {
+    //     return reSignInWithGoogle()
+    //         .then((result) => {
+    //             // Retrieve the user data from the result
+    //             const user = result.user;
+    //             // Store the user data in localStorage
+    //             localStorage.setItem("user", JSON.stringify(user));
+    //             // Navigate to the home page
+    //             navigate("/");
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         });
+    // };
     const SignInWithGoogle = () => {
-        return reSignInWithGoogle()
+        // Function to check if the user is in an embedded web view
+        const isInEmbeddedBrowser = () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return (
+                userAgent.includes("FBAN") || // Facebook App
+                userAgent.includes("FBAV") || // Facebook App
+                userAgent.includes("Twitter") || // Twitter App
+                userAgent.includes("LinkedIn") // LinkedIn App
+            );
+        };
+
+        if (isInEmbeddedBrowser()) {
+            // Prompt the user to open in a secure browser
+            alert("Please open this link in your default browser for a better experience.");
+            window.open("https://cinetime.vercel.app/", "_system"); // Adjust the URL to your app's URL
+            return; // Exit the function
+        }
+
+        // Proceed with Google sign-in
+        reSignInWithGoogle()
             .then((result) => {
                 // Retrieve the user data from the result
                 const user = result.user;
@@ -57,9 +90,10 @@ const useAuth = () => {
                 navigate("/");
             })
             .catch((err) => {
-                console.log(err)
+                console.error("Error during sign-in:", err);
             });
     };
+
     // const updateUser  = async (userId, values) => {
     //     // console.log("Updating user with ID:", userId, "and values:", values);
     //     try {
