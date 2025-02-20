@@ -63,7 +63,7 @@ const useAuth = () => {
     const SignInWithGoogle = () => {
         // Function to check if the user is in an embedded web view
         const isInEmbeddedBrowser = () => {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const userAgent = navigator.userAgent || navigator.vendor || window.google;
             return (
                 userAgent.includes("FBAN") || // Facebook App
                 userAgent.includes("FBAV") || // Facebook App
