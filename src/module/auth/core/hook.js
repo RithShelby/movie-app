@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import {signOut} from "firebase/auth";
+import {getAuth, signOut, updateEmail,updatePassword} from "firebase/auth";
 import {auth, db} from "../../../config/firebase-config";
-import {reqGetUser, reqRegister, reSignInWithGoogle} from "./request";
+import {reqGetUser, reSignInWithGoogle} from "./request";
 import {doc, getDocs, setDoc, where, query, updateDoc,} from "@firebase/firestore";
 import {useDispatch} from "react-redux";
 import {setAuthList} from "./authSlice";
@@ -22,16 +22,16 @@ const useAuth = () => {
             console.log(e)
         }
     }
-    const OnRegister = (values) => {
-    return reqRegister(values)
-      .then(() => {
-        navigate("/");
-        localStorage.setItem("user", JSON.stringify(values));
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  //   const OnRegister = (values) => {
+  //   return reqRegister(values)
+  //     .then(() => {
+  //       navigate("/");
+  //       localStorage.setItem("user", JSON.stringify(values));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
     const createUser = async (values) => {
         try {
             const userRequest = await getDocs(reqGetUser);
@@ -39,6 +39,7 @@ const useAuth = () => {
             //customId
             const customId = "user" + (size+1);
             const userRef = doc(reqGetUser,customId);
+            localStorage.setItem("user", JSON.stringify(values));
             await setDoc(userRef,values);
             navigate("/");
         }catch (e) {
@@ -59,18 +60,50 @@ const useAuth = () => {
                 console.log(err)
             });
     };
-    const updateUser = async (userId, values) => {
+    // const updateUser  = async (userId, values) => {
+    //     // console.log("Updating user with ID:", userId, "and values:", values);
+    //     try {
+    //         // Firestore update
+    //         const userRef = doc(db, "userList", userId); // Ensure "userList" is the correct collection
+    //         await updateDoc(userRef, values);
+    //
+    //         // Update localStorage
+    //         const currentUser  = JSON.parse(localStorage.getItem("user")) || {};
+    //         const updatedUser  = { ...currentUser , ...values };
+    //         localStorage.setItem("user", JSON.stringify(updatedUser ));
+    //         SuccessAlert({ title: "Setting Updated!", text: "Thank you 🙏🏼" });
+    //         console.log("User  profile updated successfully.");
+    //     } catch (error) {
+    //         console.error("Error updating user:", error);
+    //         ErrorAlert();
+    //     }
+    // };
+    const updateUser  = async (userId, values) => {
+        const auth = getAuth();
+        const user = auth.currentUser ; // Get the currently signed-in user
+
         try {
-            // Firestore update
+            // Update Firestore
             const userRef = doc(db, "userList", userId);
             await updateDoc(userRef, values);
 
+            // Update email if provided and user is signed in
+            if (values.email && user) {
+                await updateEmail(user, values.email); // Update email in Firebase Auth
+            }
+
+            // Update password if provided and user is signed in
+            if (values.password && user) {
+                await updatePassword(user, values.password); // Update password in Firebase Auth
+            }
+
             // Update localStorage
-            const currentUser = JSON.parse(localStorage.getItem("user")) || {};
-            const updatedUser = { ...currentUser, ...values };
-            localStorage.setItem("user", JSON.stringify(updatedUser));
+            const currentUser  = JSON.parse(localStorage.getItem("user")) || {};
+            const updatedUser  = { ...currentUser , ...values };
+            localStorage.setItem("user", JSON.stringify(updatedUser ));
+
             SuccessAlert({ title: "Setting Updated!", text: "Thank you 🙏🏼" });
-            console.log("User profile updated successfully.");
+            console.log("User  profile updated successfully.");
         } catch (error) {
             console.error("Error updating user:", error);
             ErrorAlert();
@@ -78,36 +111,31 @@ const useAuth = () => {
     };
     const onLogin = async (values) => {
         try {
-            // Query Firestore for a user with matching email
-            const q = query(reqGetUser,
+            const q = query(reqGetUser ,
                 where("email", "==", values.email),
-                where("password" , "==" , values.password)
+                where("name", "==" , values.name)
             );
             const querySnapShot = await getDocs(q);
             if (!querySnapShot.empty) {
-                let authenticatedUser = null;
-                // Loop through results to find matching password
+                let authenticatedUser  = null;
                 querySnapShot.forEach((doc) => {
                     const userData = doc.data();
-                    authenticatedUser = { id: doc.id, ...userData };
+                    authenticatedUser  = { id: doc.id, ...userData }; // Ensure id is included
                 });
-                if (authenticatedUser) {
-                    // Save authenticated user data including ID to localStorage
+                if (authenticatedUser ) {
                     localStorage.setItem("user", JSON.stringify(authenticatedUser));
                     console.log("Login successful");
-                    // Redirect user after successful login
                     navigate("/");
                 } else {
                     console.log("Invalid password");
-                    ErrorAlert();
+
                 }
             } else {
-                ErrorAlert();
-                console.log("User not found");
+                ErrorAlert({title : "Email and Name Not founded !!" , text: "Try again please!!"});
             }
         } catch (e) {
-
             console.error("Error during login:", e);
+            ErrorAlert({title : "Name Not founded !!" , text: "Try again please!!"});
         }
     };
     const OnLogout = async () => {
@@ -120,7 +148,7 @@ const useAuth = () => {
     }
   };
 
-  return { OnRegister, OnLogout, onLogin, SignInWithGoogle ,getUser,createUser,updateUser};
+  return {OnLogout, onLogin, SignInWithGoogle ,getUser,createUser,updateUser};
 };
 
 export { useAuth };

@@ -7,10 +7,10 @@ const SuccessAlert = ({title,text}) => {
     icon: "success",
   });
 };
-const ErrorAlert = () => {
+const ErrorAlert = ({title,text}) => {
   Swal.fire({
-    title: "Please try again !",
-    text: "Check your email & password again !",
+    title: title,
+    text: text,
     icon: "error",
   });
 };

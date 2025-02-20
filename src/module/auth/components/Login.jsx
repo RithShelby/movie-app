@@ -4,20 +4,20 @@ import { HiOutlineMail } from "react-icons/hi";
 import {Link} from "react-router-dom";
 import { useAuth } from "../core/hook";
 import { useFormik } from "formik";
-import {PiPasswordBold} from "react-icons/pi";
-import * as Yup from "yup"; // Import Yup
+import * as Yup from "yup";
+import {LuUserRound} from "react-icons/lu"; // Import Yup
 const Login = () => {
   const { onLogin ,SignInWithGoogle} = useAuth();
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email format").required("Email is required"),
-        password: Yup.string()
-            .min(10, "Password must be at least 10 characters")
-            .required("Password is required"),
+        name: Yup.string()
+            .min(3, "Name must be at least 3 characters")
+            .required("Name is required"),
     });
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+        email: "",
+        name: "",
     },
       validationSchema,
     onSubmit: async (values) => {
@@ -38,17 +38,18 @@ const Login = () => {
           {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-sm">{formik.errors.email}</p>
           )}
-        <CustomSearch
-            className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
-            name={"password"}
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            placeholder="Password"
-            icon={<PiPasswordBold/>}
-            type={"password"}
-        />{formik.touched.password && formik.errors.password && (
-          <p className="text-red-500 text-sm">{formik.errors.password}</p>
-      )}
+          <CustomSearch
+              className="flex items-center border-b active:border-b transition-all hover:border-b my-5"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              placeholder="Name"
+              icon={<LuUserRound />}
+              type="text"
+          />
+          {formik.touched.name && formik.errors.name && (
+              <p className="text-red-500 text-sm">{formik.errors.name}</p>
+          )}
 
         <button className="btn w-full text-lg" type="submit">
           Login
