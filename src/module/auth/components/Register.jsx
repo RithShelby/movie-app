@@ -54,7 +54,7 @@ const Register = () => {
             {formik.touched.name && formik.errors.name && (
                 <p className="text-red-500 text-sm">{formik.errors.name}</p>
             )}
-            <button className="btn w-full text-lg" type="submit">
+            <button className="btn w-full text-lg btn-accent" type="submit">
                 Sign-Up
             </button>
             <Link
